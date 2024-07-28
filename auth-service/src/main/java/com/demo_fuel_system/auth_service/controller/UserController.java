@@ -22,6 +22,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request
     ) {
+        System.out.println(">>>>>");
         return ResponseEntity.ok(service.register(request));
     }
     @PostMapping("/authenticate")

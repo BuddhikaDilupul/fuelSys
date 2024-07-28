@@ -1,6 +1,7 @@
 package com.demo_fuel_system.auth_service.config;
 
 import com.demo_fuel_system.auth_service.config.JwtAuthenticationFilter;
+import jakarta.servlet.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -27,17 +29,22 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req ->
-                        req.requestMatchers(WHITE_LIST_URL)
-                                .permitAll() // Allow access to auth endpoints without authentication
-                                .anyRequest()
-                                .authenticated() // Secure other endpoints
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS)) // Stateless session management
+                .csrf()
+                .disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/api/v1/auth/register")
+                .permitAll() // Allow access to auth endpoints without authentication
+                .anyRequest()
+                .authenticated() // Secure other endpoints
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(STATELESS) // Stateless session management
+                .and()
                 .authenticationProvider(authenticationProvider) // Custom authentication provider
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class); // JWT filter
 
         return http.build();
     }
+
+
 }
