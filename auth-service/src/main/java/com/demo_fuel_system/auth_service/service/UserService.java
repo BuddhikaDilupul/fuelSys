@@ -25,25 +25,25 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-
         if (repository.findByEmail(request.getEmail()).isPresent()) {
             throw new ResourceExistsException(request.getEmail() + " is not available");
+        }else {
+
+            var user = UserEntity.builder()
+                    .name(request.getName())
+                    .userName(request.getUserName())
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(Role.valueOf(request.getRole()))
+                    .build();
+
+            var savedUser = repository.save(user);
+
+            var jwtToken = jwtService.generateToken(savedUser);
+            return AuthenticationResponse.builder()
+                    .accessToken(jwtToken)
+                    .build();
         }
-
-        var user = UserEntity.builder()
-                .name(request.getName())
-                .userName(request.getUserName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.valueOf(request.getRole()))
-                .build();
-
-        var savedUser = repository.save(user);
-
-        var jwtToken = jwtService.generateToken(savedUser);
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
