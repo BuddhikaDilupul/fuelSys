@@ -32,7 +32,7 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/register")
+                .requestMatchers(WHITE_LIST_URL)
                 .permitAll() // Allow access to auth endpoints without authentication
                 .anyRequest()
                 .authenticated() // Secure other endpoints

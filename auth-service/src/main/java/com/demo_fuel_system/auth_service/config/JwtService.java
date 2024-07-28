@@ -20,9 +20,9 @@ public class JwtService {
 
   @Value("${application.security.jwt.secret-key}")
   private String secretKey;
+
   @Value("${application.security.jwt.expiration}")
   private long jwtExpiration;
-
 
   public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
@@ -37,20 +37,11 @@ public class JwtService {
     return generateToken(new HashMap<>(), userDetails);
   }
 
-  public String generateToken(
-      Map<String, Object> extraClaims,
-      UserDetails userDetails
-  ) {
+  public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
     return buildToken(extraClaims, userDetails, jwtExpiration);
   }
 
-
-
-  private String buildToken(
-          Map<String, Object> extraClaims,
-          UserDetails userDetails,
-          long expiration
-  ) {
+  private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
     return Jwts
             .builder()
             .setClaims(extraClaims)
@@ -76,15 +67,18 @@ public class JwtService {
 
   private Claims extractAllClaims(String token) {
     return Jwts
-        .parserBuilder()
-        .setSigningKey(getSignInKey())
-        .build()
-        .parseClaimsJws(token)
-        .getBody();
+            .parserBuilder()
+            .setSigningKey(getSignInKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
   }
 
   private Key getSignInKey() {
     byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+    if (keyBytes.length < 32) {
+      throw new IllegalArgumentException("The specified key byte array is less than 256 bits (32 bytes) which is not secure enough for any JWT HMAC-SHA algorithm.");
+    }
     return Keys.hmacShaKeyFor(keyBytes);
   }
 }

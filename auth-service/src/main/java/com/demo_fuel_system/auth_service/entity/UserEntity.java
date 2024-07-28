@@ -30,6 +30,7 @@ public class UserEntity implements UserDetails {
     @Indexed(unique = true, direction = IndexDirection.DESCENDING)
     private String userName;
     private String name;
+    @Indexed(unique = true)
     private String email;
     private String password;
 
@@ -43,12 +44,12 @@ public class UserEntity implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return this.email; // Use email as the username
+        return email; // Use email as the username
     }
 
     @Override
