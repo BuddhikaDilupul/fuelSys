@@ -49,7 +49,7 @@ exports.userLogin = async (req, res, next) => {
         { expiresIn: "1d" }
       );
 
-      return res.status(httpStatus.OK).send({ user: user, token: token });
+      return res.status(httpStatus.OK).send({ token: token });
     } else {
       return res.status(httpStatus.BAD_REQUEST).send("Password is wrong!");
     }
