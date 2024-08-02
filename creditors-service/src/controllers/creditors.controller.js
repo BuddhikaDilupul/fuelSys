@@ -13,7 +13,6 @@ exports.createCreditor = async (req, res) => {
         name,
         address,
         phoneNumber,
-        status,
       });
 
       const savedCreditor = await newCreditor.save();
