@@ -4,24 +4,27 @@ const { authenticate } = require("../../middlewares/authenticate");
 const ROLES = require("../../../ROLES");
 const { authorize } = require("../../middlewares/authorize");
 const pumpController = require("../../controllers/pump.controller");
+const pumpValidation = require("../../validations/pump.validation");
 
+const  {validate} = require("express-validation");
 
 router.post(
   "/admin/save",
   authenticate,
   authorize([ROLES.admin, ROLES.manager]),
+  validate(pumpValidation.createPump),
   pumpController.savePump
 );
 router.get(
   "/all/view",
   authenticate,
-  authorize([ROLES.admin, ROLES.manager]),
+  authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
   pumpController.getAllPumps
 );
 router.get(
   "/all/view/:id",
   authenticate,
-  // authorize([ROLES.admin, ROLES.manager]),
+  authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
   pumpController.getPumpById
 );
 

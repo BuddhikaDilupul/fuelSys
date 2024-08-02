@@ -5,6 +5,7 @@ const pumpSchema = new Schema({
   pumpName: {
     type: String,
     required: true,
+    unique: true,
   },
   fuel: {
     type: Schema.Types.ObjectId,
@@ -12,12 +13,12 @@ const pumpSchema = new Schema({
     required: true,
   },
   manual: {
-      type: Number,
-      required: true,
+    type: Number,
+    required: true,
   },
   digital: {
-      type: Number,
-      required: true,
+    type: Number,
+    required: true,
   },
   status: {
     type: String,

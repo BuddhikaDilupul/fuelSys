@@ -13,10 +13,19 @@ const getFuelData = async () => {
 
 // Create a new Pump
 exports.savePump = async (req, res) => {
+  console.log(req.body.pumpName);
+  
   try {
-    const pump = new Pump(req.body);
-    await pump.save();
-    res.status(201).json(pump);
+    const pumpCheck = await Pump.findOne({ pumpName: req.body.pumpName });
+    
+    if (pumpCheck) {
+      res.status(403).send("Can not have duplicate pumps");
+    } else {
+      const pump = new Pump(req.body);
+      
+      await pump.save();
+      res.status(201).json(pump);
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
