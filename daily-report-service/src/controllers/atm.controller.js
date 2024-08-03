@@ -3,7 +3,10 @@ const ATM = require('../models/atm.model');
 // Create a new ATM record
 exports.createATM = async (req, res) => {
   try {
-    const { totalAmount, createdBy, billdata, status } = req.body;
+    const { createdBy, billdata, status } = req.body;
+
+    // Calculate the totalAmount by summing up the 'Amount' field in the billdata array
+    const totalAmount = billdata.reduce((total, bill) => total + bill.Amount, 0);
 
     const newATM = new ATM({
       totalAmount,
@@ -18,7 +21,6 @@ exports.createATM = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
 // Get an ATM record by ID
 exports.getATMById = async (req, res) => {
   try {
