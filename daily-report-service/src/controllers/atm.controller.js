@@ -47,8 +47,8 @@ exports.getAllATMs = async (req, res) => {
 
 exports.getPumperReport = async (req, res) => {
   try {
-    const { pumperId } = req.params.id;
-    console.log(req.params);
+    const pumperId  = req.params.id;
+    console.log(req.params.id);
     
     // Find all ATM records created by the specific pumper
     const atmRecords = await ATM.find({ "createdBy.pumperId": pumperId });
