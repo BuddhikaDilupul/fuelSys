@@ -26,7 +26,7 @@ router.get(
   "/pumper/:id",
   authenticate,
   authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
-  createontroller.getCreditorsBypumperId
+  createontroller.getCreditorsByPumperId
 );
 
 // Get all Cash records
