@@ -103,7 +103,7 @@ exports.updateCashStatusById = async (req, res) => {
   try {
     const id = req.params.id;
 
-    if (!["pending", "approved", "rejected"].includes(status)) {
+    if (!["pending", "approved", "rejected"].includes(req.body.status)) {
       return res.status(400).json({ message: "Invalid status value" });
     }
 
