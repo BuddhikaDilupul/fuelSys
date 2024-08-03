@@ -110,8 +110,8 @@ exports.updateCashStatusById = async (req, res) => {
     if (!cash) {
       return res.status(404).json({ message: "Cash record not found" });
     }
-    await cash.save();
-    res.json(cash);
+    
+    res.status(httpStatus.OK).json("Successfully updated huththo!");
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
