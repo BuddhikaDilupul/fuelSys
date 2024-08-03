@@ -34,11 +34,11 @@ app.use(function (req, res, next) {
 app.get("/", (req, res) => {
   return res.json({ message: "Hello" });
 })
+app.use(authJwt())
 
 app.use("/auth", apiRouter);
 
 app.use(errorHandler.handleError);
-app.use(authJwt())
 exports.start = () => {
   app.listen(config.port, (err) => {
     if (err) {
