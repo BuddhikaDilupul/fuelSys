@@ -14,3 +14,16 @@ POST /report/v1-report/save 201 4 - 523.896 ms
 POST /report/v1-report/save 201 4 - 146.719 ms
 POST /report/v1-report/save 400 37 - 21.162 ms
 POST /report/v1-report/save 201 746 - 88.048 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 401 26 - 20.972 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 200 746 - 95.084 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 200 2 - 115.208 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 500 135 - 30.876 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 200 746 - 80.112 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 200 746 - 87.337 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 200 746 - 85.643 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 200 746 - 57.594 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 200 746 - 57.974 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 500 35 - 18.634 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 500 35 - 3.217 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 200 746 - 384.468 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 200 2681 - 2437.028 ms
