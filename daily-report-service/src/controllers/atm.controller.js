@@ -1,3 +1,4 @@
+const httpStatus = require('http-status');
 const ATM = require('../models/atm.model');
 
 // Create a new ATM record
