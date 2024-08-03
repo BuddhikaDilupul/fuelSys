@@ -6,4 +6,5 @@ module.exports = {
     ReciverEmailAddress: process.env.EMAIL2,
     sendEmailPassword: process.env.EMAIL_PASSWORD,
     enviroment:process.env.ENVIROMENT,
+    secret: process.env.secret,
 };
