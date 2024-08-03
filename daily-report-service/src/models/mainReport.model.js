@@ -5,30 +5,6 @@ const Schema = mongoose.Schema;
 const reportSchema = new Schema({
   data: [
     {
-      pumpData: {
-        pumpId: {
-          type: String,
-        },
-        pumpName: {
-          type: String,
-        },
-      },
-      fuelData: {
-        fuelId: {
-          type: String,
-        },
-        fuelName: {
-          type: String,
-        },
-      },
-      price: {
-        priceId: {
-          type: String,
-        },
-        price: {
-          type: Number,
-        },
-      },
       manualMeter: {
         open: {
           type: Number,

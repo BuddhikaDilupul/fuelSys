@@ -11,8 +11,7 @@ exports.createReport = async (req, res) => {
     const newReport = new Report({
       itemList,
       createdBy,
-      status,
-      assignedTo, // Include assignedTo here
+      assignedTo,
     });
 
     // Save the report
@@ -42,7 +41,7 @@ exports.createReport = async (req, res) => {
 
     // Wait for all update operations to complete
     await Promise.all(updatePromises);
-    res.status(201).json(savedReport);
+    res.status(201).json("submitted sucessfully");
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
