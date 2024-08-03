@@ -1,6 +1,6 @@
 exports.authorize = (roles)=> {
     return function(req, res, next) {
-      console.log(req.role);
+      console.log(req.role, roles);
       
       if (roles.includes(req.role)) {
         console.log("awa");
