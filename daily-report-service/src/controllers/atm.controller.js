@@ -48,10 +48,12 @@ exports.getAllATMs = async (req, res) => {
 exports.getPumperReport = async (req, res) => {
   try {
     const { pumperId } = req.params;
-
+    console.log(pumperId);
+    
     // Find all ATM records created by the specific pumper
     const atmRecords = await ATM.find({ "createdBy.pumperId": pumperId });
-
+    console.log(atmRecords);
+    
     if (atmRecords.length === 0) {
       return res.status(httpStatus.NOT_FOUND).json({ message: "No records found for this pumper." });
     }
