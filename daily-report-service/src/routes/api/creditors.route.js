@@ -4,13 +4,14 @@ const { authenticate } = require("../../middlewares/authenticate");
 const ROLES = require("../../../ROLES");
 const { authorize } = require("../../middlewares/authorize");
 const cashController = require("../../controllers/cash.controller");
+const createontroller = require("../../controllers/creditors.controller");
 
 // Create a new Cash record
 router.post(
-  "/cash/save",
+  "/save",
   authenticate,
   authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
-  cashController.createCash
+  createontroller.createCreditors
 );
 
 // Get a Cash record by ID
