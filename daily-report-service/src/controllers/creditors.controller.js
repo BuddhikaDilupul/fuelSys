@@ -3,12 +3,11 @@ const Creditors = require('../models/creditors.model');
 // Create a new Creditors record
 exports.createCreditors = async (req, res) => {
   try {
-    const { creditorData, createdBy, status } = req.body;
+    const { creditorData, createdBy } = req.body;
 
     const newCreditors = new Creditors({
       creditorData,
       createdBy,
-      status,
     });
 
     await newCreditors.save();

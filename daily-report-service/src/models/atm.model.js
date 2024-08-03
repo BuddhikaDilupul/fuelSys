@@ -24,13 +24,14 @@ const atmSchema = new Schema({
     {
       billNumber: {
         type: String,
+        unique: true,
         required: true,
       },
       cardType: {
         type: String,
         required: true,
       },
-      Amount:{
+      Amount: {
         type: Number,
         required: true,
       },
@@ -41,7 +42,6 @@ const atmSchema = new Schema({
       },
     },
   ],
-  
 });
 
 module.exports = mongoose.model("ATM", atmSchema);
