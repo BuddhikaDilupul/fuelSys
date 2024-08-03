@@ -17,7 +17,33 @@ exports.createReport = async (req, res) => {
 
     // Save the report
     const savedReport = await newReport.save();
-
+       // Update the statuses for each item in the itemList
+       const updatePromises = savedReport.itemList.map(async (item) => {
+        let model;
+        
+        switch (item.itemType) {
+          case 'Cash':
+            model = Cash;
+            break;
+          case 'ATM':
+            model = ATM;
+            break;
+          case 'Creditors':
+            model = Creditors;
+            break;
+          default:
+            throw new Error(`Unknown item type: ${item.itemType}`);
+        }
+  
+        // Update the status
+        return model.updateOne(
+          { _id: item.reportId },
+          { status: 'submitted' }
+        );
+      });
+  
+      // Wait for all update operations to complete
+      await Promise.all(updatePromises);
     res.status(201).json(savedReport);
   } catch (error) {
     res.status(400).json({ error: error.message });

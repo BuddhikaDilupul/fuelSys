@@ -53,6 +53,11 @@ const creditorsSchema = new Schema({
       required: true,
     },
   },
+  staus: {
+    type: String,
+    enum: ["pending", "approved", "submitted", "rejected"],
+    default: "pending",
+  },
 });
 
 module.exports = mongoose.model("Creditors", creditorsSchema);

@@ -42,6 +42,11 @@ const atmSchema = new Schema({
       },
     },
   ],
+  staus: {
+    type: String,
+    enum: ["pending", "approved", "submitted", "rejected"],
+    default: "pending",
+  },
 });
 
 module.exports = mongoose.model("ATM", atmSchema);

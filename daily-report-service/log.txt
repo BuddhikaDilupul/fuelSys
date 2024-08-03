@@ -27,3 +27,8 @@ GET /report/v1-report/report/66ade9b345fcb4426d59d766 500 35 - 18.634 ms
 GET /report/v1-report/report/66ade9b345fcb4426d59d766 500 35 - 3.217 ms
 GET /report/v1-report/report/66ade9b345fcb4426d59d766 200 746 - 384.468 ms
 GET /report/v1-report/report/66ade9b345fcb4426d59d766 200 2681 - 2437.028 ms
+GET /report/v1-report/report/66ade9b345fcb4426d59d766 404 187 - 15.766 ms
+GET /report/v1-report/66ade9b345fcb4426d59d766 200 2681 - 441.138 ms
+POST /report/v1-report/save 201 650 - 219.301 ms
+POST /report/v1-report/save 201 650 - 133.152 ms
+POST /report/v1-report/save 201 650 - 208.691 ms
