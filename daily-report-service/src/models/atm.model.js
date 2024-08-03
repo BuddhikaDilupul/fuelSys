@@ -31,7 +31,7 @@ const atmSchema = new Schema({
         type: String,
         required: true,
       },
-      Amount: {
+      amount: {
         type: Number,
         required: true,
       },
