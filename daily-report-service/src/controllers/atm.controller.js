@@ -57,15 +57,15 @@ exports.getPumperReport = async (req, res) => {
     }
 
     // // Generate a report
-    // const totalAmount = atmRecords.reduce((total, record) => total + record.totalAmount, 0);
-    // const report = {
-    //   pumperId,
-    //   pumperName: atmRecords[0].createdBy.pumperName,
-    //   totalAmount,
-    //   transactions: atmRecords
-    // };
+    const totalAmount = atmRecords.reduce((total, record) => total + record.totalAmount, 0);
+    const report = {
+      pumperId,
+      pumperName: atmRecords[0].createdBy.pumperName,
+      totalAmount,
+      atmRecords
+    };
 
-    return res.status(httpStatus.OK).json(atmRecords);
+    return res.status(httpStatus.OK).json(report);
   } catch (error) {
     res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
   }
