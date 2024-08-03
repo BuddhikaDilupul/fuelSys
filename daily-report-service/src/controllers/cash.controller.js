@@ -6,9 +6,15 @@ exports.createCash = async (req, res) => {
   try {
     const { cashList, createdBy } = req.body;
 
+    // Calculate the totalAmount by summing up the 'Amount' field in the billdata array
+    const totalAmount = cashList.reduce(
+      (total, bill) => total + bill.amount,
+      0
+    );
     const newCash = new Cash({
       cashList,
       createdBy,
+      totalAmount
     });
 
     await newCash.save();
@@ -40,7 +46,7 @@ exports.getRecordsByPumperId = async (req, res, next) => {
 
     const calculateTotalAmounts = (cashRecords) => {
       // Initialize a variable to hold the total amount
-      
+
       // Iterate through each cash record
       cashRecords.forEach((record) => {
         // Iterate through each amount in the cashList of the current record

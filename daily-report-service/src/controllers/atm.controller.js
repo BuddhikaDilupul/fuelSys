@@ -1,5 +1,5 @@
-const httpStatus = require("http-status");
-const ATM = require("../models/atm.model");
+const httpStatus = require('http-status');
+const ATM = require('../models/atm.model');
 
 // Create a new ATM record
 exports.createATM = async (req, res) => {
@@ -7,19 +7,17 @@ exports.createATM = async (req, res) => {
     const { createdBy, billdata } = req.body;
 
     // Calculate the totalAmount by summing up the 'Amount' field in the billdata array
-    const totalAmount = billdata.reduce(
-      (total, bill) => total + bill.amount,
-      0
-    );
+    const totalAmount = billdata.reduce((total, bill) => total + bill.amount, 0);
 
     const newATM = new ATM({
       totalAmount,
       createdBy,
       billdata,
     });
+    
 
     await newATM.save();
-    res.status(201).json(newATM, totalAmount);
+    res.status(201).json(newATM);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -29,7 +27,7 @@ exports.getATMById = async (req, res) => {
   try {
     const atm = await ATM.findById(req.params.id);
     if (!atm) {
-      return res.status(404).json({ message: "ATM record not found" });
+      return res.status(404).json({ message: 'ATM record not found' });
     }
     res.json(atm);
   } catch (error) {
@@ -47,29 +45,25 @@ exports.getAllATMs = async (req, res) => {
   }
 };
 
+
 exports.getPumperReport = async (req, res) => {
   try {
-    const pumperId = req.params.id;
-
+    const pumperId  = req.params.id;
+    
     // Find all ATM records created by the specific pumper
     const atmRecords = await ATM.find({ "createdBy.pumperId": pumperId });
-
+    
     if (atmRecords.length === 0) {
-      return res
-        .status(httpStatus.NOT_FOUND)
-        .json({ message: "No records found for this pumper." });
+      return res.status(httpStatus.NOT_FOUND).json({ message: "No records found for this pumper." });
     }
 
     // // Generate a report
-    const totalAmount = atmRecords.reduce(
-      (total, record) => total + record.totalAmount,
-      0
-    );
+    const totalAmount = atmRecords.reduce((total, record) => total + record.totalAmount, 0);
     const report = {
       pumperId,
       pumperName: atmRecords[0].createdBy.pumperName,
       totalAmount,
-      atmRecords,
+      atmRecords
     };
 
     return res.status(httpStatus.OK).json(report);
@@ -85,7 +79,7 @@ exports.updateATMById = async (req, res) => {
 
     const atm = await ATM.findById(req.params.id);
     if (!atm) {
-      return res.status(404).json({ message: "ATM record not found" });
+      return res.status(404).json({ message: 'ATM record not found' });
     }
 
     if (totalAmount !== undefined) atm.totalAmount = totalAmount;
@@ -105,9 +99,9 @@ exports.deleteATMById = async (req, res) => {
   try {
     const atm = await ATM.findByIdAndDelete(req.params.id);
     if (!atm) {
-      return res.status(404).json({ message: "ATM record not found" });
+      return res.status(404).json({ message: 'ATM record not found' });
     }
-    res.json({ message: "ATM record deleted successfully" });
+    res.json({ message: 'ATM record deleted successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -28,6 +28,10 @@ const cashSchema = new Schema({
       required: true,
     },
   },
+  totalAmount:{
+    type:Number,
+    required:true
+  },
   status: {
     type: String,
     enum: ["pending", "approved", "rejected"],
