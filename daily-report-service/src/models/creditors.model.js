@@ -18,7 +18,7 @@ const creditorsSchema = new Schema({
         required: true,
       },
       fuelType: {
-        type: Number,
+        type: String,
         required: true,
       },
       fuelPrice: {
