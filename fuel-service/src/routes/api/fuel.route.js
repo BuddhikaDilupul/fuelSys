@@ -19,7 +19,7 @@ router.post(
 router.get(
   "/all/view",
   authenticate,
-  authorize([ROLES.admin, ROLES.manager]),
+  authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
   fuelController.getAllFuels
 );
 
