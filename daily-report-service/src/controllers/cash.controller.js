@@ -34,7 +34,7 @@ exports.getCashById = async (req, res) => {
 // Get all records created by a specific pumper
 exports.getRecordsByPumperId = async (req, res, next) => {
   try {
-    const pumperId = req.params.pumperId;
+    const pumperId = req.params.id;
     const records = await Cash.find({ "createdBy.pumperId": pumperId });
 
     if (records && records.length > 0) {
