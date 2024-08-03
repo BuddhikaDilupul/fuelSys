@@ -30,18 +30,6 @@ const atmSchema = new Schema({
         type: String,
         required: true,
       },
-      fuelType:{
-        type: String,
-        required: true,
-      },
-      fuelPrice:{
-        type: Number,
-        required: true,
-      },
-      fuelAmount:{
-        type: Number,
-        required: true,
-      },
       Amount:{
         type: Number,
         required: true,
