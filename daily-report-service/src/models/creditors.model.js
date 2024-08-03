@@ -53,7 +53,7 @@ const creditorsSchema = new Schema({
       required: true,
     },
   },
-  staus: {
+  status: {
     type: String,
     enum: ["pending", "approved", "submitted", "rejected"],
     default: "pending",

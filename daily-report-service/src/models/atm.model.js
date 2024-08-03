@@ -42,7 +42,7 @@ const atmSchema = new Schema({
       },
     },
   ],
-  staus: {
+  status: {
     type: String,
     enum: ["pending", "approved", "submitted", "rejected"],
     default: "pending",

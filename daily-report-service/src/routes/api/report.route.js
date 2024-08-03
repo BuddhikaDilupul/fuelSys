@@ -21,6 +21,14 @@ router.get(
   reportController.getReportById
 );
 
+// Get a Report by ID
+router.get(
+  "/:username",
+  authenticate,
+  authorize([ROLES.admin, ROLES.manager]),
+  reportController.getReportByAssignedPerson
+);
+
 // Get all Reports
 router.get(
   "/reports",

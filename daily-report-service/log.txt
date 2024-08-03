@@ -32,3 +32,6 @@ GET /report/v1-report/66ade9b345fcb4426d59d766 200 2681 - 441.138 ms
 POST /report/v1-report/save 201 650 - 219.301 ms
 POST /report/v1-report/save 201 650 - 133.152 ms
 POST /report/v1-report/save 201 650 - 208.691 ms
+POST /report/v1-report/save 201 650 - 186.154 ms
+POST /report/v1-report/save 201 650 - 169.480 ms
+POST /report/v1-report/save 201 650 - 456.147 ms

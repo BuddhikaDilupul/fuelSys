@@ -17,33 +17,31 @@ exports.createReport = async (req, res) => {
 
     // Save the report
     const savedReport = await newReport.save();
-       // Update the statuses for each item in the itemList
-       const updatePromises = savedReport.itemList.map(async (item) => {
-        let model;
-        
-        switch (item.itemType) {
-          case 'Cash':
-            model = Cash;
-            break;
-          case 'ATM':
-            model = ATM;
-            break;
-          case 'Creditors':
-            model = Creditors;
-            break;
-          default:
-            throw new Error(`Unknown item type: ${item.itemType}`);
-        }
-  
-        // Update the status
-        return model.updateOne(
-          { _id: item.reportId },
-          { status: 'submitted' }
-        );
-      });
-  
-      // Wait for all update operations to complete
-      await Promise.all(updatePromises);
+    // Update the statuses for each item in the itemList
+    const updatePromises = savedReport.itemList.map(async (item) => {
+      let model;
+
+      switch (item.itemType) {
+        case "Cash":
+          model = Cash;
+          break;
+        case "ATM":
+          model = ATM;
+          break;
+        case "Creditors":
+          model = Creditors;
+          break;
+        default:
+          throw new Error(`Unknown item type: ${item.itemType}`);
+      }
+      console.log(item, ">>>>");
+
+      // Update the status
+      return model.updateOne({ _id: item.reportId }, { status: "submitted" });
+    });
+
+    // Wait for all update operations to complete
+    await Promise.all(updatePromises);
     res.status(201).json(savedReport);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -56,28 +54,28 @@ exports.getReportById = async (req, res) => {
 
   try {
     // Find the report by ID and populate itemList.reportId based on itemType
-    const report = await Report.findById(id)
+    const report = await Report.findById(id);
     console.log(report);
-    
-      // Populate itemList.reportId based on itemType
-      const populatedItemList = await Promise.all(
-        report.itemList.map(async (item) => {
-          let populatedItem = item;
-          if (item.itemType === 'Cash') {
-            populatedItem.reportId = await Cash.findById(item.reportId);
-          } else if (item.itemType === 'ATM') {
-            populatedItem.reportId = await ATM.findById(item.reportId);
-          } else if (item.itemType === 'Creditors') {
-            populatedItem.reportId = await Creditors.findById(item.reportId);
-          }
-          return populatedItem;
-        })
-      );
-  
-      // Attach the populated itemList to the report
-      report.itemList = populatedItemList;
+
+    // Populate itemList.reportId based on itemType
+    const populatedItemList = await Promise.all(
+      report.itemList.map(async (item) => {
+        let populatedItem = item;
+        if (item.itemType === "Cash") {
+          populatedItem.reportId = await Cash.findById(item.reportId);
+        } else if (item.itemType === "ATM") {
+          populatedItem.reportId = await ATM.findById(item.reportId);
+        } else if (item.itemType === "Creditors") {
+          populatedItem.reportId = await Creditors.findById(item.reportId);
+        }
+        return populatedItem;
+      })
+    );
+
+    // Attach the populated itemList to the report
+    report.itemList = populatedItemList;
     if (!report) {
-      return res.status(404).json({ message: 'Report not found' });
+      return res.status(404).json({ message: "Report not found" });
     }
 
     res.status(200).json(report);
@@ -85,7 +83,40 @@ exports.getReportById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+exports.getReportByAssignedPerson = async (req, res) => {
+  const username = req.params.username;
 
+  try {
+    // Find the report by ID and populate itemList.reportId based on itemType
+    const report = await Report.find({ "assignedTo.username": username });
+    console.log(report);
+
+    // Populate itemList.reportId based on itemType
+    const populatedItemList = await Promise.all(
+      report.itemList.map(async (item) => {
+        let populatedItem = item;
+        if (item.itemType === "Cash") {
+          populatedItem.reportId = await Cash.findById(item.reportId);
+        } else if (item.itemType === "ATM") {
+          populatedItem.reportId = await ATM.findById(item.reportId);
+        } else if (item.itemType === "Creditors") {
+          populatedItem.reportId = await Creditors.findById(item.reportId);
+        }
+        return populatedItem;
+      })
+    );
+
+    // Attach the populated itemList to the report
+    report.itemList = populatedItemList;
+    if (!report) {
+      return res.status(404).json({ message: "Report not found" });
+    }
+
+    res.status(200).json(report);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 // Get all Reports
 exports.getAllReports = async (req, res) => {
