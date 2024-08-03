@@ -17,11 +17,18 @@ exports.createReport = async (req, res) => {
       createdBy,
       status,
     });
-
-    console.log(newReport);
+    // Populate the references in itemList
+    const populatedReport = await Report.findById(newReport._id)
+      .populate({
+        path: 'itemList.reportId',
+        match: { itemType: { $in: ['Cash', 'ATM', 'Creditors'] } },
+        select: 'reportId', // Specify fields to populate if needed
+      })
+      .exec();
+    console.log(populatedReport);
     
     // await newReport.save();
-    res.status(201).json(newReport);
+    res.status(201).json(populatedReport);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
