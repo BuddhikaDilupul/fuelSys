@@ -3,12 +3,11 @@ const Cash = require('../models/cash.model');
 // Create a new Cash record
 exports.createCash = async (req, res) => {
   try {
-    const { amount, createdBy, status } = req.body;
+    const { amount, createdBy } = req.body;
 
     const newCash = new Cash({
       amount,
       createdBy,
-      status,
     });
 
     await newCash.save();
