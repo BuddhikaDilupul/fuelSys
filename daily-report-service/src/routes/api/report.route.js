@@ -15,7 +15,7 @@ router.post(
 
 // Get a Report by ID
 router.get(
-  "/report/:id",
+  "/:id",
   authenticate,
   authorize([ROLES.admin, ROLES.manager]),
   reportController.getReportById
