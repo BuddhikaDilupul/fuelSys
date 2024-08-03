@@ -1,5 +1,5 @@
-const httpStatus = require('http-status');
-const Cash = require('../models/cash.model');
+const httpStatus = require("http-status");
+const Cash = require("../models/cash.model");
 
 // Create a new Cash record
 exports.createCash = async (req, res) => {
@@ -23,7 +23,7 @@ exports.getCashById = async (req, res) => {
   try {
     const cash = await Cash.findById(req.params.id);
     if (!cash) {
-      return res.status(404).json({ message: 'Cash record not found' });
+      return res.status(404).json({ message: "Cash record not found" });
     }
     res.json(cash);
   } catch (error) {
@@ -36,12 +36,33 @@ exports.getRecordsByPumperId = async (req, res, next) => {
   try {
     const pumperId = req.params.id;
     const records = await Cash.find({ "createdBy.pumperId": pumperId });
+    let totalAmount = 0;
 
+    const calculateTotalAmounts = (cashRecords) => {
+      // Initialize a variable to hold the total amount
+
+      // Iterate through each cash record
+      cashRecords.forEach((record) => {
+        // Iterate through each amount in the cashList of the current record
+        record.cashList.forEach((cash) => {
+          // Add the amount to the totalAmount
+          totalAmount += cash.amount;
+        });
+      });
+
+      // Return the total amount
+      return totalAmount;
+    };
+    let totalFinalAmount = calculateTotalAmounts(records);
     if (records && records.length > 0) {
-      return res.status(httpStatus.OK).send(records);
+      return res
+        .status(httpStatus.OK)
+        .send({ records, totalFinalAmount: totalFinalAmount });
     }
 
-    return res.status(httpStatus.NOT_FOUND).send("No records found for this pumper");
+    return res
+      .status(httpStatus.NOT_FOUND)
+      .send("No records found for this pumper");
   } catch (error) {
     next(error);
   }
@@ -64,7 +85,7 @@ exports.updateCashById = async (req, res) => {
 
     const cash = await Cash.findById(req.params.id);
     if (!cash) {
-      return res.status(404).json({ message: 'Cash record not found' });
+      return res.status(404).json({ message: "Cash record not found" });
     }
 
     if (amount !== undefined) cash.amount = amount;
@@ -83,9 +104,9 @@ exports.deleteCashById = async (req, res) => {
   try {
     const cash = await Cash.findByIdAndDelete(req.params.id);
     if (!cash) {
-      return res.status(404).json({ message: 'Cash record not found' });
+      return res.status(404).json({ message: "Cash record not found" });
     }
-    res.json({ message: 'Cash record deleted successfully' });
+    res.json({ message: "Cash record deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
