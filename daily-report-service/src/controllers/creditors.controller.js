@@ -44,9 +44,10 @@ exports.getCreditorsByPumperId = async (req, res) => {
     const { id: pumperId } = req.params;
 
     // Find the creditors record by pumperId
-    const creditors = await Creditors.findOne({
+    const creditors = await Creditors.find({
       "createdBy.pumperId": pumperId,
     });
+console.log(creditors);
 
     // Check if the creditors record is found
     if (!creditors) {
@@ -55,32 +56,41 @@ exports.getCreditorsByPumperId = async (req, res) => {
     // Initialize an object to hold the aggregated fuel data
     const fuelSummary = {};
 
-    // Iterate through the creditorData array and aggregate fuel amounts by fuelType
-    creditors.creditorData.forEach(creditor => {
-      const { fuelType, fuelAmount, fuelPrice } = creditor;
-
-      // Initialize the fuelType entry if not already present
-      if (!fuelSummary[fuelType]) {
-        fuelSummary[fuelType] = {
-          totalFuelAmount: 0,
-          totalFuelPrice: 0,
+        // // Generate a report
+        const totalAmount = creditors.reduce((total, record) => total + record.totalAmount, 0);
+        const report = {
+          pumperId,
+          pumperName: creditors[0].createdBy.pumperName,
+          totalAmount,
+          creditors
         };
-      }
+    
+    // // Iterate through the creditorData array and aggregate fuel amounts by fuelType
+    // creditors?.creditorData.forEach(creditor => {
+    //   const { fuelType, fuelAmount, fuelPrice } = creditor;
 
-      // Aggregate fuel amounts and prices
-      fuelSummary[fuelType].totalFuelAmount += fuelAmount;
-      fuelSummary[fuelType].totalFuelPrice += (fuelAmount * fuelPrice);
-    });
+    //   // Initialize the fuelType entry if not already present
+    //   if (!fuelSummary[fuelType]) {
+    //     fuelSummary[fuelType] = {
+    //       totalFuelAmount: 0,
+    //       totalFuelPrice: 0,
+    //     };
+    //   }
 
-    // Format the response
-    const fuelSummery = Object.keys(fuelSummary).map(fuelType => ({
-      fuelType: parseInt(fuelType, 10),
-      totalFuelAmount: fuelSummary[fuelType].totalFuelAmount,
-      totalFuelPrice: fuelSummary[fuelType].totalFuelPrice,
-    }));
+    //   // Aggregate fuel amounts and prices
+    //   fuelSummary[fuelType].totalFuelAmount += fuelAmount;
+    //   fuelSummary[fuelType].totalFuelPrice += (fuelAmount * fuelPrice);
+    // });
+
+    // // Format the response
+    // const fuelSummery = Object.keys(fuelSummary).map(fuelType => ({
+    //   fuelType: parseInt(fuelType, 10),
+    //   totalFuelAmount: fuelSummary[fuelType].totalFuelAmount,
+    //   totalFuelPrice: fuelSummary[fuelType].totalFuelPrice,
+    // }));
 
 
-    res.json({fuelSummery, creditors});
+    res.json({report});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

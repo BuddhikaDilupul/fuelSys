@@ -64,3 +64,16 @@ GET /report/v1-report/assignedTo/milshan 500 84 - 94.840 ms
 GET /report/v1-report/assignedTo/milshan 500 84 - 104.393 ms
 GET /report/v1-report/assignedTo/milshan 200 5261 - 524.893 ms
 GET /report/v1-report/assignedTo/milshan 200 2631 - 143.678 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 200 660 - 98.256 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 500 67 - 84.911 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 500 67 - 64.590 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 200 660 - 603.202 ms
+GET /report/v1-atm/pumper/66ad0a32e75d4874cca96991 200 730 - 73.704 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 200 660 - 219.842 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 500 67 - 62.890 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 500 67 - 266.385 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 200 660 - 63.628 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 500 67 - 69.978 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 500 67 - 60.673 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 500 67 - 60.005 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 200 1211 - 63.807 ms
