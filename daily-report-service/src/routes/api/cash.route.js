@@ -7,7 +7,7 @@ const cashController = require("../../controllers/cash.controller");
 
 // Create a new Cash record
 router.post(
-  "/cash/save",
+  "/save",
   authenticate,
   authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
   cashController.createCash
@@ -15,15 +15,21 @@ router.post(
 
 // Get a Cash record by ID
 router.get(
-  "/cash/:id",
+  "/:id",
   authenticate,
   authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
   cashController.getCashById
 );
+router.get(
+  "/pumper/:id",
+  authenticate,
+  authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
+  cashController.getRecordsByPumperId
+);
 
 // Get all Cash records
 router.get(
-  "/cash",
+  "/",
   authenticate,
   authorize([ROLES.admin, ROLES.manager]),
   cashController.getAllCash

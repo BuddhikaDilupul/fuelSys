@@ -3,10 +3,10 @@ const Cash = require('../models/cash.model');
 // Create a new Cash record
 exports.createCash = async (req, res) => {
   try {
-    const { amount, createdBy } = req.body;
+    const { cashList, createdBy } = req.body;
 
     const newCash = new Cash({
-      amount,
+      cashList,
       createdBy,
     });
 
@@ -27,6 +27,22 @@ exports.getCashById = async (req, res) => {
     res.json(cash);
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+// Get all records created by a specific pumper
+exports.getRecordsByPumperId = async (req, res, next) => {
+  try {
+    const pumperId = req.params.pumperId;
+    const records = await Cash.find({ "createdBy.pumperId": pumperId });
+
+    if (records && records.length > 0) {
+      return res.status(httpStatus.OK).send(records);
+    }
+
+    return res.status(httpStatus.NOT_FOUND).send("No records found for this pumper");
+  } catch (error) {
+    next(error);
   }
 };
 
