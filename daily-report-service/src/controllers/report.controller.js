@@ -4,24 +4,23 @@ const Report = require('../models/report.model');
 exports.createReport = async (req, res) => {
   try {
     const {
-      data,
-      totalPrice,
-      totalFuel,
       itemList,
       createdBy,
       status,
     } = req.body;
 
     const newReport = new Report({
-      data,
-      totalPrice,
-      totalFuel,
+      // data,
+      // totalPrice,
+      // totalFuel,
       itemList,
       createdBy,
       status,
     });
 
-    await newReport.save();
+    console.log(newReport);
+    
+    // await newReport.save();
     res.status(201).json(newReport);
   } catch (error) {
     res.status(400).json({ error: error.message });
