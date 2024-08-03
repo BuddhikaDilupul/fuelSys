@@ -1,21 +1,27 @@
 const Creditors = require('../models/creditors.model');
+const httpStatus = require("http-status");
 
 // Create a new Creditors record
 exports.createCreditors = async (req, res) => {
   try {
     const { creditorData, createdBy } = req.body;
 
+    // Calculate totalAmount
+    const totalAmount = creditorData.reduce((total, creditor) => total + creditor.amount, 0);
+
     const newCreditors = new Creditors({
       creditorData,
+      totalAmount,
       createdBy,
     });
 
     await newCreditors.save();
-    res.status(201).json(newCreditors);
+    res.status(httpStatus.CREATED).json(newCreditors);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(httpStatus.BAD_REQUEST).json({ error: error.message });
   }
 };
+
 
 // Get a Creditors record by ID
 exports.getCreditorsById = async (req, res) => {

@@ -24,15 +24,24 @@ const creditorsSchema = new Schema({
         type: Number,
         required: true,
       },
-      Amount: {
+      amount: {
         type: Number,
         required: true,
+      },
+      status: {
+        type: String,
+        enum: ["pending", "approved", "rejected"],
+        default: "pending",
       },
     },
   ],
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  totalAmount: {
+    type: Number,
+    required: true,
   },
   createdBy: {
     pumperId: {
@@ -43,11 +52,6 @@ const creditorsSchema = new Schema({
       type: String,
       required: true,
     },
-  },
-  status: {
-    type: String,
-    enum: ["pending", "approved", "rejected"],
-    default: "pending",
   },
 });
 
