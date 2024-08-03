@@ -7,9 +7,9 @@ const reportController = require("../../controllers/report.controller");
 
 // Create a new Report
 router.post(
-  "/report/save",
+  "/save",
   authenticate,
-  authorize([ROLES.admin, ROLES.manager]),
+  authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
   reportController.createReport
 );
 
