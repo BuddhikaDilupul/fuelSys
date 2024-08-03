@@ -47,8 +47,6 @@ exports.getCreditorsByPumperId = async (req, res) => {
     const creditors = await Creditors.findOne({
       "createdBy.pumperId": pumperId,
     });
-    console.log(creditors);
-    
 
     // Check if the creditors record is found
     if (!creditors) {

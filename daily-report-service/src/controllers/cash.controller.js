@@ -1,3 +1,4 @@
+const httpStatus = require('http-status');
 const Cash = require('../models/cash.model');
 
 // Create a new Cash record
