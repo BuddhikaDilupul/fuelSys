@@ -24,7 +24,7 @@ router.get(
   "/managers",
   authenticate,
   authorize( [ROLES.admin, ROLES.manager, ROLES.pumper]),
-  getUserController.getAll
+  getUserController.getAllManagers
 );
 router.put(
   "/:id",
