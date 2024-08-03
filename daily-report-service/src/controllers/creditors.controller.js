@@ -1,4 +1,4 @@
-const Creditors = require('../models/creditors.model');
+const Creditors = require("../models/creditors.model");
 const httpStatus = require("http-status");
 
 // Create a new Creditors record
@@ -7,7 +7,10 @@ exports.createCreditors = async (req, res) => {
     const { creditorData, createdBy } = req.body;
 
     // Calculate totalAmount
-    const totalAmount = creditorData.reduce((total, creditor) => total + creditor.amount, 0);
+    const totalAmount = creditorData.reduce(
+      (total, creditor) => total + creditor.amount,
+      0
+    );
 
     const newCreditors = new Creditors({
       creditorData,
@@ -22,13 +25,26 @@ exports.createCreditors = async (req, res) => {
   }
 };
 
-
 // Get a Creditors record by ID
 exports.getCreditorsById = async (req, res) => {
   try {
     const creditors = await Creditors.findById(req.params.id);
     if (!creditors) {
-      return res.status(404).json({ message: 'Creditors record not found' });
+      return res.status(404).json({ message: "Creditors record not found" });
+    }
+    res.json(creditors);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+// Get a Creditors record by ID
+exports.getCreditorsBypumperId = async (req, res) => {
+  try {
+    const creditors = await Creditors.findById({
+      "createdBy.pumperId": req.params.id,
+    });
+    if (!creditors) {
+      return res.status(404).json({ message: "Creditors record not found" });
     }
     res.json(creditors);
   } catch (error) {
@@ -53,7 +69,7 @@ exports.updateCreditorsById = async (req, res) => {
 
     const creditors = await Creditors.findById(req.params.id);
     if (!creditors) {
-      return res.status(404).json({ message: 'Creditors record not found' });
+      return res.status(404).json({ message: "Creditors record not found" });
     }
 
     if (creditorData !== undefined) creditors.creditorData = creditorData;
@@ -72,9 +88,9 @@ exports.deleteCreditorsById = async (req, res) => {
   try {
     const creditors = await Creditors.findByIdAndDelete(req.params.id);
     if (!creditors) {
-      return res.status(404).json({ message: 'Creditors record not found' });
+      return res.status(404).json({ message: "Creditors record not found" });
     }
-    res.json({ message: 'Creditors record deleted successfully' });
+    res.json({ message: "Creditors record deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
