@@ -98,3 +98,8 @@ GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 200 1283 - 123.234 ms
 GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 200 1283 - 80.013 ms
 GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 200 1109 - 82.602 ms
 GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 200 1199 - 90.746 ms
+GET /report/v1-cash/pumper/66ad0a32e75d4874cca96991 200 261 - 5671.381 ms
+GET /report/v1-cash/pumper/66ad0a32e75d4874cca96991 200 261 - 1698.774 ms
+GET /report/v1-cash/pumper/66ad0a32e75d4874cca96991 500 71 - 10018.820 ms
+GET /report/v1-cash/pumper/66ad0a32e75d4874cca96991 200 261 - 200.216 ms
+GET /report/v1-cash/pumper/66ad0a32e75d4874cca96991 200 461 - 77.795 ms

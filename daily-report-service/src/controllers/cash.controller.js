@@ -40,7 +40,7 @@ exports.getRecordsByPumperId = async (req, res, next) => {
 
     const calculateTotalAmounts = (cashRecords) => {
       // Initialize a variable to hold the total amount
-
+      
       // Iterate through each cash record
       cashRecords.forEach((record) => {
         // Iterate through each amount in the cashList of the current record
