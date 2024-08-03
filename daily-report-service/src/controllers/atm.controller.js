@@ -7,7 +7,7 @@ exports.createATM = async (req, res) => {
     const { createdBy, billdata } = req.body;
 
     // Calculate the totalAmount by summing up the 'Amount' field in the billdata array
-    const totalAmount = billdata.reduce((total, bill) => total + bill.Amount, 0);
+    const totalAmount = billdata.reduce((total, bill) => total + bill.amount, 0);
 
     const newATM = new ATM({
       totalAmount,
