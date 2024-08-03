@@ -103,15 +103,19 @@ exports.updateCashStatusById = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const cash = await Cash.findByIdAndUpdate(id, {
-      status: req.body.status,
-      updatedAt: Date.now(),
-    });
+    const cash = await Cash.findByIdAndUpdate(
+      id,
+      {
+        status: req.body.status,
+        updatedAt: Date.now(),
+      },
+      { new: true }
+    );
     if (!cash) {
       return res.status(404).json({ message: "Cash record not found" });
     }
-    
-    res.status(httpStatus.OK).json("Successfully updated huththo!");
+
+    res.status(httpStatus.OK).json(cash);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
