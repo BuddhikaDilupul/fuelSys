@@ -3,7 +3,7 @@ const ATM = require('../models/atm.model');
 // Create a new ATM record
 exports.createATM = async (req, res) => {
   try {
-    const { createdBy, billdata, status } = req.body;
+    const { createdBy, billdata } = req.body;
 
     // Calculate the totalAmount by summing up the 'Amount' field in the billdata array
     const totalAmount = billdata.reduce((total, bill) => total + bill.Amount, 0);
@@ -12,7 +12,6 @@ exports.createATM = async (req, res) => {
       totalAmount,
       createdBy,
       billdata,
-      status,
     });
 
     await newATM.save();
