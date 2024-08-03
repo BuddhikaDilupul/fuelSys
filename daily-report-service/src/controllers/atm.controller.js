@@ -52,9 +52,9 @@ exports.getPumperReport = async (req, res) => {
     // Find all ATM records created by the specific pumper
     const atmRecords = await ATM.find({ "createdBy.pumperId": pumperId });
     
-    // if (atmRecords.length === 0) {
-    //   return res.status(httpStatus.NOT_FOUND).json({ message: "No records found for this pumper." });
-    // }
+    if (atmRecords.length === 0) {
+      return res.status(httpStatus.NOT_FOUND).json({ message: "No records found for this pumper." });
+    }
 
     // // Generate a report
     // const totalAmount = atmRecords.reduce((total, record) => total + record.totalAmount, 0);
