@@ -14,6 +14,8 @@ exports.createATM = async (req, res) => {
       createdBy,
       billdata,
     });
+    console.log(newATM);
+    
 
     await newATM.save();
     res.status(201).json(newATM);
