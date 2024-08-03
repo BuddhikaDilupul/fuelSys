@@ -1,4 +1,4 @@
-const Report = require('../models/report.model');
+const Report = require('../models/mainReport.model');
 
 // Create a new Report
 exports.createReport = async (req, res) => {
