@@ -23,7 +23,7 @@ router.get(
 
 // Get a Report by ID
 router.get(
-  "/:username",
+  "/assignedTo/:username",
   authenticate,
   authorize([ROLES.admin, ROLES.manager]),
   reportController.getReportByAssignedPerson

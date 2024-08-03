@@ -87,32 +87,35 @@ exports.getReportByAssignedPerson = async (req, res) => {
   const username = req.params.username;
 
   try {
-    // Find the report by ID and populate itemList.reportId based on itemType
-    const report = await Report.find({ "assignedTo.username": username });
-    console.log(report);
+    // Find reports assigned to the specific username
+    const reports = await Report.find({ "assignedTo.username": username });
 
-    // Populate itemList.reportId based on itemType
-    const populatedItemList = await Promise.all(
-      report.itemList.map(async (item) => {
-        let populatedItem = item;
-        if (item.itemType === "Cash") {
-          populatedItem.reportId = await Cash.findById(item.reportId);
-        } else if (item.itemType === "ATM") {
-          populatedItem.reportId = await ATM.findById(item.reportId);
-        } else if (item.itemType === "Creditors") {
-          populatedItem.reportId = await Creditors.findById(item.reportId);
-        }
-        return populatedItem;
+    if (!reports || reports.length === 0) {
+      return res.status(404).json({ message: `No reports found for user ${username}` });
+    }
+
+    // Populate itemList for each report
+    const populatedReports = await Promise.all(
+      reports.map(async (report) => {
+        const populatedItemList = await Promise.all(
+          report.itemList.map(async (item) => {
+            let populatedItem = item;
+            if (item?.itemType === "Cash") {
+              populatedItem.reportId = await Cash.findById(item.reportId);
+            } else if (item.itemType === "ATM") {
+              populatedItem.reportId = await ATM.findById(item.reportId);
+            } else if (item.itemType === "Creditors") {
+              populatedItem.reportId = await Creditors.findById(item.reportId);
+            }
+            return populatedItem;
+          })
+        );
+        report.itemList = populatedItemList;
+        return report;
       })
     );
 
-    // Attach the populated itemList to the report
-    report.itemList = populatedItemList;
-    if (!report) {
-      return res.status(404).json({ message: "Report not found" });
-    }
-
-    res.status(200).json(report);
+    res.status(200).json(populatedReports);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
