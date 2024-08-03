@@ -9,7 +9,7 @@ const creditorsSchema = new Schema({
         required: true,
       },
       creditorName: {
-        type: Number,
+        type: String,
         required: true,
       },
       billNumber: {
