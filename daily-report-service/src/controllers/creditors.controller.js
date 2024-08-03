@@ -38,38 +38,51 @@ exports.getCreditorsById = async (req, res) => {
   }
 };
 
-
 exports.getCreditorsByPumperId = async (req, res) => {
   try {
     // Extract pumperId and fuelType from request parameters or query
-    const { id: pumperId, fuelType } = req.params;
+    const { id: pumperId } = req.params;
 
     // Find the creditors record by pumperId
     const creditors = await Creditors.findOne({
       "createdBy.pumperId": pumperId,
     });
+    console.log(creditors);
+    
 
     // Check if the creditors record is found
     if (!creditors) {
       return res.status(404).json({ message: "Creditors record not found" });
     }
+    // Initialize an object to hold the aggregated fuel data
+    const fuelSummary = {};
 
-    // If fuelType is provided, filter the creditorData to get the specific fuelAmount
-    let fuelAmount = null;
-    if (fuelType) {
-      const fuelData = creditors.creditorData.find(data => data.fuelType === fuelType);
-      if (fuelData) {
-        fuelAmount = fuelData.fuelAmount;
+    // Iterate through the creditorData array and aggregate fuel amounts by fuelType
+    creditors.creditorData.forEach(creditor => {
+      const { fuelType, fuelAmount, fuelPrice } = creditor;
+
+      // Initialize the fuelType entry if not already present
+      if (!fuelSummary[fuelType]) {
+        fuelSummary[fuelType] = {
+          totalFuelAmount: 0,
+          totalFuelPrice: 0,
+        };
       }
-    }
 
-    // Prepare response
-    const response = {
-      creditors: creditors,
-      fuelAmount: fuelAmount,
-    };
+      // Aggregate fuel amounts and prices
+      fuelSummary[fuelType].totalFuelAmount += fuelAmount;
+      fuelSummary[fuelType].totalFuelPrice += (fuelAmount * fuelPrice);
+    });
 
-    res.json(response);
+    // Format the response
+    const fuelSummery = Object.keys(fuelSummary).map(fuelType => ({
+      fuelType: parseInt(fuelType, 10),
+      totalFuelAmount: fuelSummary[fuelType].totalFuelAmount,
+      totalFuelPrice: fuelSummary[fuelType].totalFuelPrice,
+    }));
+
+
+    res.json({fuelSummery, creditors});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

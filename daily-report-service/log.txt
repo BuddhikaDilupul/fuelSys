@@ -1,0 +1,6 @@
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 500 35 - 79.664 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 500 35 - 84.861 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 200 115 - 88.876 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 500 55 - 92.920 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 200 628 - 65.168 ms
+GET /report/v1-credit/pumper/66ad0a32e75d4874cca96991 200 631 - 110.799 ms
