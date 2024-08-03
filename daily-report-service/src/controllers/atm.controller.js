@@ -43,6 +43,34 @@ exports.getAllATMs = async (req, res) => {
   }
 };
 
+
+exports.getPumperReport = async (req, res) => {
+  try {
+    const { pumperId } = req.params;
+
+    // Find all ATM records created by the specific pumper
+    const atmRecords = await ATM.find({ "createdBy.pumperId": pumperId });
+
+    if (atmRecords.length === 0) {
+      return res.status(httpStatus.NOT_FOUND).json({ message: "No records found for this pumper." });
+    }
+
+    // Generate a report
+    const totalAmount = atmRecords.reduce((total, record) => total + record.totalAmount, 0);
+    const report = {
+      pumperId,
+      pumperName: atmRecords[0].createdBy.pumperName, // Assuming pumperName is consistent across records
+      totalTransactions: atmRecords.length,
+      totalAmount,
+      transactions: atmRecords
+    };
+
+    return res.status(httpStatus.OK).json(report);
+  } catch (error) {
+    res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ error: error.message });
+  }
+};
+
 // Update an ATM record by ID
 exports.updateATMById = async (req, res) => {
   try {

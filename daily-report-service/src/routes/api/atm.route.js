@@ -20,6 +20,12 @@ router.get(
   authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
   atmController.getATMById
 );
+router.get(
+  "/pumper/:id",
+  authenticate,
+  authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
+  atmController.getPumperReport
+);
 
 // Get all ATM reports
 router.get(
