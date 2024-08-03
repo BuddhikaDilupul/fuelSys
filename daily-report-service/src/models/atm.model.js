@@ -45,14 +45,15 @@ const atmSchema = new Schema({
       Amount:{
         type: Number,
         required: true,
-      }
+      },
+      status: {
+        type: String,
+        enum: ["pending", "approved", "rejected"],
+        default: "pending",
+      },
     },
   ],
-  status: {
-    type: String,
-    enum: ["pending", "approved", "rejected"],
-    default: "pending",
-  },
+  
 });
 
 module.exports = mongoose.model("ATM", atmSchema);

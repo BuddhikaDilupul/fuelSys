@@ -7,7 +7,7 @@ const atmController = require("../../controllers/atm.controller");
 
 // Create a new ATM report
 router.post(
-  "/atm-report/save",
+  "/save",
   authenticate,
   authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
   atmController.createATM
