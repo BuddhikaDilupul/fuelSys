@@ -12,3 +12,5 @@ POST /report/v1-report/save 201 4 - 96.796 ms
 POST /report/v1-report/save 400 122 - 33.665 ms
 POST /report/v1-report/save 201 4 - 523.896 ms
 POST /report/v1-report/save 201 4 - 146.719 ms
+POST /report/v1-report/save 400 37 - 21.162 ms
+POST /report/v1-report/save 201 746 - 88.048 ms

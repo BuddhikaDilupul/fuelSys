@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+
 const reportSchema = new Schema({
   data: [
     {
@@ -90,5 +91,6 @@ const reportSchema = new Schema({
     default: "pending",
   },
 });
+
 
 module.exports = mongoose.model("Report", reportSchema);

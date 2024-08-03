@@ -5,24 +5,25 @@ const Creditors = require('../models/creditors.model'); // Adjust path as needed
 
 exports.createReport = async (req, res) => {
   try {
-    const { itemList, createdBy, status } = req.body;
+    const { itemList, createdBy, status, assignedTo } = req.body; // Make sure `assignedTo` is included here
 
     // Create a new Report instance
     const newReport = new Report({
       itemList,
       createdBy,
       status,
-      assignedTo
+      assignedTo, // Include assignedTo here
     });
 
     // Save the report
     const savedReport = await newReport.save();
 
-  res.status(201).json(savedReport);
+    res.status(201).json(savedReport);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
 
 // Get a Report by ID
 exports.getReportById = async (req, res) => {
