@@ -14,6 +14,10 @@ const cashSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
   createdBy: {
     pumperId: {
       type: String,

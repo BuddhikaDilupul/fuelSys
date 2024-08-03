@@ -26,6 +26,12 @@ router.get(
   authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
   cashController.getRecordsByPumperId
 );
+router.post(
+  "/status/:id",
+  authenticate,
+  authorize([ROLES.admin, ROLES.manager]),
+  cashController.updateCashStatusById
+);
 
 // Get all Cash records
 router.get(

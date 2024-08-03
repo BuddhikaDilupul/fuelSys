@@ -98,6 +98,24 @@ exports.updateCashById = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+// Update a Cash record status by ID
+exports.updateCashStatusById = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const cash = await Cash.findByIdAndUpdate(id, {
+      status: req.body.status,
+      updatedAt: Date.now(),
+    });
+    if (!cash) {
+      return res.status(404).json({ message: "Cash record not found" });
+    }
+    await cash.save();
+    res.json(cash);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 // Delete a Cash record by ID
 exports.deleteCashById = async (req, res) => {
