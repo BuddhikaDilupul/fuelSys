@@ -37,10 +37,11 @@ exports.getCreditorsById = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-// Get a Creditors record by ID
-exports.getCreditorsBypumperId = async (req, res) => {
+
+
+exports.getCreditorsByPumperId = async (req, res) => {
   try {
-    const creditors = await Creditors.findById({
+    const creditors = await Creditors.findOne({
       "createdBy.pumperId": req.params.id,
     });
     if (!creditors) {
@@ -51,6 +52,7 @@ exports.getCreditorsBypumperId = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // Get all Creditors records
 exports.getAllCreditors = async (req, res) => {
