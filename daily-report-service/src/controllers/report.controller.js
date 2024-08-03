@@ -1,34 +1,24 @@
-const Report = require('../models/mainReport.model');
+const Report = require('../models/mainReport.model'); // Adjust path as needed
+const Cash = require('../models/cash.model');     // Adjust path as needed
+const ATM = require('../models/atm.model');       // Adjust path as needed
+const Creditors = require('../models/creditors.model'); // Adjust path as needed
 
-// Create a new Report
 exports.createReport = async (req, res) => {
   try {
-    const {
-      itemList,
-      createdBy,
-      status,
-    } = req.body;
+    const { itemList, createdBy, status } = req.body;
 
+    // Create a new Report instance
     const newReport = new Report({
-      // data,
-      // totalPrice,
-      // totalFuel,
       itemList,
       createdBy,
       status,
+      assignedTo
     });
-    // Populate the references in itemList
-    const populatedReport = await Report.findById(newReport._id)
-      .populate({
-        path: 'itemList.reportId',
-        match: { itemType: { $in: ['Cash', 'ATM', 'Creditors'] } },
-        select: 'reportId', // Specify fields to populate if needed
-      })
-      .exec();
-    console.log(populatedReport);
-    
-    // await newReport.save();
-    res.status(201).json(populatedReport);
+
+    // Save the report
+    const savedReport = await newReport.save();
+
+  res.status(201).json(savedReport);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

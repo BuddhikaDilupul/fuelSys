@@ -7,66 +7,53 @@ const reportSchema = new Schema({
       pumpData: {
         pumpId: {
           type: String,
-          required: true,
         },
         pumpName: {
           type: String,
-          required: true,
         },
       },
       fuelData: {
         fuelId: {
           type: String,
-          required: true,
         },
         fuelName: {
           type: String,
-          required: true,
         },
       },
       price: {
         priceId: {
           type: String,
-          required: true,
         },
         price: {
           type: Number,
-          required: true,
         },
       },
       manualMeter: {
         open: {
           type: Number,
-          required: true,
         },
         closed: {
           type: Number,
-          required: true,
         },
       },
       digitalMeter: {
         open: {
           type: Number,
-          required: true,
         },
         closed: {
           type: Number,
-          required: true,
         },
       },
       testUsage: {
         type: Number,
-        required: true,
       },
     },
   ],
   totalPrice: {
     type: Number,
-    required: true,
   },
   totalFuel: {
     type: Number,
-    required: true,
   },
   itemList: [
     {
@@ -81,6 +68,12 @@ const reportSchema = new Schema({
       },
     },
   ],
+  assignedTo: {
+    username: {
+      type: String,
+      required: true,
+    },
+  },
   createdAt: {
     type: Date,
     default: Date.now,
