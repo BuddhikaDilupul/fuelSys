@@ -12,6 +12,11 @@ const creditorsSchema = new Schema({
         type: Number,
         required: true,
       },
+      billNumber: {
+        type: String,
+        unique: true,
+        required: true,
+      },
       fuelType: {
         type: Number,
         required: true,
