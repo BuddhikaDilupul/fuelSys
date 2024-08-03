@@ -17,14 +17,20 @@ router.get(
 router.get(
   "/",
   authenticate,
-  authorize( [ROLES.admin]),
+  authorize( [ROLES.admin, ROLES.manager, ROLES.pumper]),
+  getUserController.getAll
+);
+router.get(
+  "/Managers",
+  authenticate,
+  authorize( [ROLES.admin, ROLES.manager, ROLES.pumper]),
   getUserController.getAll
 );
 router.put(
   "/:id",
   validate(authValidation.updateUser),
   authenticate,
-  authorize( [ROLES.admin]),
+  authorize( [ROLES.admin, ROLES.manager,]),
   getUserController.updateUserData
 );
 
