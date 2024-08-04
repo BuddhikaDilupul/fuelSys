@@ -135,3 +135,5 @@ GET /report/v1-report/pumper-reports - - - - ms
 GET /report/v1-report/pumper-reports - - - - ms
 GET /report/v1-report/pumper-reports 200 69 - 790.252 ms
 GET /report/v1-report/pumper-reports 200 137 - 155.126 ms
+GET /report/v1-report/pumper-reports 500 55 - 5.133 ms
+GET /report/v1-report/pumper-reports 500 55 - 10.994 ms
