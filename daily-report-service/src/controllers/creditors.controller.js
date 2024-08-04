@@ -92,45 +92,47 @@ exports.updateCreditorsById = async (req, res) => {
         prevData.creditorData[0].fuelAmount *
         prevData.creditorData[0].fuelPrice,
     };
-    // Function to update or append fuelSummery
-    function updateFuelSummery(fuelSummery, temp) {
-      // Check if fuelType already exists
-      let fuelTypeExists = false;
+    console.log(temp);
+    
+    // // Function to update or append fuelSummery
+    // function updateFuelSummery(fuelSummery, temp) {
+    //   // Check if fuelType already exists
+    //   let fuelTypeExists = false;
 
-      for (let i = 0; i < fuelSummery.length; i++) {
-        if (fuelSummery[i].fuelType === temp.fuelType) {
-          // If fuelType exists, add the totalAmount and totalPrice to existing values
-          fuelSummery[i].totalAmount += temp.totalAmount;
-          fuelSummery[i].totalPrice += temp.totalPrice;
-          fuelTypeExists = true;
-          break;
-        }
-      }
+    //   for (let i = 0; i < fuelSummery.length; i++) {
+    //     if (fuelSummery[i].fuelType === temp.fuelType) {
+    //       // If fuelType exists, add the totalAmount and totalPrice to existing values
+    //       fuelSummery[i].totalAmount += temp.totalAmount;
+    //       fuelSummery[i].totalPrice += temp.totalPrice;
+    //       fuelTypeExists = true;
+    //       break;
+    //     }
+    //   }
 
-      // If fuelType does not exist, append the new object
-      if (!fuelTypeExists) {
-        fuelSummery.push(temp);
-      }
+    //   // If fuelType does not exist, append the new object
+    //   if (!fuelTypeExists) {
+    //     fuelSummery.push(temp);
+    //   }
 
-      return fuelSummery;
-    }
+    //   return fuelSummery;
+    // }
 
-    // Update the fuelSummery array
-    updateFuelSummery(fuelSummery, temp);
-    const updatedData = await Creditors.findOneAndUpdate(
-      { _id: reportId, "creditorData._id": itemId }, // Filter criteria
-      {
-        $set: { "creditorData.$.status": status },
-        $inc: { totalAmount: -missMatched },
-      }, // Update operation
-      { new: true } // Return the updated document
-    );
+    // // Update the fuelSummery array
+    // updateFuelSummery(fuelSummery, temp);
+    // const updatedData = await Creditors.findOneAndUpdate(
+    //   { _id: reportId, "creditorData._id": itemId }, // Filter criteria
+    //   {
+    //     $set: { "creditorData.$.status": status },
+    //     $inc: { totalAmount: -missMatched },
+    //   }, // Update operation
+    //   { new: true } // Return the updated document
+    // );
 
-    if (!updatedData) {
-      return res.status(404).json({ message: "ATM record or bill not found" });
-    }
+    // if (!updatedData) {
+    //   return res.status(404).json({ message: "ATM record or bill not found" });
+    // }
 
-    res.json(updatedData);
+    res.json("updatedData");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
