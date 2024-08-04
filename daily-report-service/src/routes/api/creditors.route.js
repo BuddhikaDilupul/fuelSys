@@ -5,7 +5,7 @@ const ROLES = require("../../../ROLES");
 const { authorize } = require("../../middlewares/authorize");
 const creditController = require("../../controllers/creditors.controller");
 
-// Create a new Cash record
+// Create a new Credit record
 router.post(
   "/save",
   authenticate,
@@ -14,7 +14,7 @@ router.post(
 );
 
 
-// Update a Cash record by ID
+// Update a Credit record by ID
 router.put(
   "/:id",
   authenticate,
@@ -22,12 +22,5 @@ router.put(
   creditController.updateCreditorsById
 );
 
-// Delete a Cash record by ID
-router.delete(
-  "/cash/delete/:id",
-  authenticate,
-  authorize([ROLES.admin, ROLES.manager]),
-  cashController.deleteCashById
-);
 
 module.exports = router;
