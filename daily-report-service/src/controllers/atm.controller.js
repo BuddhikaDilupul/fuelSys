@@ -111,7 +111,7 @@ exports.updateBillStatus = async (req, res) => {
       { "billdata.$": 1 }
     );
     let missMatched = 0;
-    if (status !== "rejected") {
+    if (status == "rejected") {
       missMatched = prevATM.billdata[0].amount;
     }
     console.log(prevATM.billdata[0],prevATM.billdata, missMatched,">>>>");
