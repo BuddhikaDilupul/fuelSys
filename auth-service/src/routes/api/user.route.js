@@ -18,7 +18,7 @@ router.get(
   "/pumpers",
   authenticate,
   authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
-  getUserController.getAllManagers
+  getUserController.getAllPumpers
 );
 
 router.get(
