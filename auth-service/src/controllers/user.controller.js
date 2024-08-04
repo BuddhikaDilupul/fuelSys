@@ -67,7 +67,7 @@ exports.getAllManagers = async (req, res, next) => {
 exports.getAllPumpers = async (req, res, next) => {
   try {
     const users = await userModel.find(
-      { role: "PUMPERS" },
+      { role: "PUMPER" },
       "_id name username email phoneNumber role status"
     );
 
