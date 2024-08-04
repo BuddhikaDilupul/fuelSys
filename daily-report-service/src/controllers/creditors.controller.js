@@ -138,7 +138,7 @@ exports.updateCreditorsById = async (req, res) => {
       return res.status(404).json({ message: "ATM record or bill not found" });
     }
 
-    res.json("updatedData");
+    res.json(updatedData);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
