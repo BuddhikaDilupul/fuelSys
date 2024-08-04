@@ -37,7 +37,7 @@ router.get(
 
 // Update an ATM report by ID
 router.put(
-  "/atm-report/update/:id",
+  "/:id",
   authenticate,
   authorize([ROLES.admin, ROLES.manager]),
   atmController.updateATMById
