@@ -14,6 +14,14 @@ router.post(
 );
 
 
+// Get a Cash record by ID
+router.get(
+  "/pumper/:id",
+  authenticate,
+  authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
+  creditController.getCreditorsByPumperId
+);
+
 // Update a Credit record by ID
 router.put(
   "/:id",
