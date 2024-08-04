@@ -19,7 +19,7 @@ router.put(
   "/:id",
   authenticate,
   authorize([ROLES.admin, ROLES.manager]),
-  cashController.
+  creditController.updateCreditorsById
 );
 
 // Delete a Cash record by ID
