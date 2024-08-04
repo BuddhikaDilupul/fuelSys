@@ -112,9 +112,9 @@ exports.updateBillStatus = async (req, res) => {
     );
     let missMatched = 0;
     if (status !== "rejected") {
-      missMatched = prevATM[0].amount;
+      missMatched = prevATM.amount;
     }
-    console.log(prevATM[0], missMatched,">>>>");
+    console.log(prevATM[0],prevATM, missMatched,">>>>");
 
     const updatedATM = await ATM.findOneAndUpdate(
       { _id: reportId, "billdata._id": itemId }, // Filter criteria
