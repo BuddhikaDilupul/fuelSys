@@ -24,18 +24,43 @@ exports.createATM = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-// Get an ATM record by ID
-exports.getATMById = async (req, res) => {
+
+
+// Update status of a specific bill
+exports.updateBillStatus = async (req, res) => {
+  const { itemId, status } = req.body;
+  const reportId = req.params.id;
+
   try {
-    const atm = await ATM.findById(req.params.id);
-    if (!atm) {
-      return res.status(404).json({ message: "ATM record not found" });
+    const prevATM = await ATM.findOne(
+      { _id: reportId, "billdata._id": itemId },
+      { "billdata.$": 1 }
+    );
+    let missMatched = 0;
+    if (status === "rejected") {
+      missMatched = prevATM.billdata[0].amount;
     }
-    res.json(atm);
+    const updatedATM = await ATM.findOneAndUpdate(
+      { _id: reportId, "billdata._id": itemId }, // Filter criteria
+      {
+        $set: { "billdata.$.status": status },
+        $inc: { totalAmount: -missMatched },
+      }, // Update operation
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedATM) {
+      return res.status(404).json({ message: "ATM record or bill not found" });
+    }
+
+    res.json(updatedATM);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+//un used apis
 
 // Get all ATM records
 exports.getAllATMs = async (req, res) => {
@@ -78,6 +103,21 @@ exports.getPumperReport = async (req, res) => {
   }
 };
 
+
+// Get an ATM record by ID
+exports.getATMById = async (req, res) => {
+  try {
+    const atm = await ATM.findById(req.params.id);
+    if (!atm) {
+      return res.status(404).json({ message: "ATM record not found" });
+    }
+    res.json(atm);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
 // Update an ATM record by ID
 exports.updateATMById = async (req, res) => {
   try {
@@ -99,40 +139,6 @@ exports.updateATMById = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
-
-// Update status of a specific bill
-exports.updateBillStatus = async (req, res) => {
-  const { itemId, status } = req.body;
-  const reportId = req.params.id;
-
-  try {
-    const prevATM = await ATM.findOne(
-      { _id: reportId, "billdata._id": itemId },
-      { "billdata.$": 1 }
-    );
-    let missMatched = 0;
-    if (status === "rejected") {
-      missMatched = prevATM.billdata[0].amount;
-    }
-    const updatedATM = await ATM.findOneAndUpdate(
-      { _id: reportId, "billdata._id": itemId }, // Filter criteria
-      {
-        $set: { "billdata.$.status": status },
-        $inc: { totalAmount: -missMatched },
-      }, // Update operation
-      { new: true } // Return the updated document
-    );
-
-    if (!updatedATM) {
-      return res.status(404).json({ message: "ATM record or bill not found" });
-    }
-
-    res.json(updatedATM);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
 // Delete an ATM record by ID
 exports.deleteATMById = async (req, res) => {
   try {
