@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const reportSchema = new Schema({
-  data: [
+  pumpDetails: [
     {
       manualMeter: {
         open: {
@@ -23,14 +23,15 @@ const reportSchema = new Schema({
       testUsage: {
         type: Number,
       },
+      totalEarnPriceFromPump: {
+        type: Number,
+      },
+      totalDistributedFuelFromPump: {
+        type: Number,
+      },
     },
   ],
-  totalPrice: {
-    type: Number,
-  },
-  totalFuel: {
-    type: Number,
-  },
+
   itemList: [
     {
       reportId: {

@@ -14,7 +14,7 @@ exports.createCash = async (req, res) => {
     const newCash = new Cash({
       cashList,
       createdBy,
-      totalAmount
+      totalAmount,
     });
 
     await newCash.save();
@@ -116,6 +116,7 @@ exports.updateCashStatusById = async (req, res) => {
     const cash = await Cash.findByIdAndUpdate(
       id,
       {
+        totalAmount: 0,
         status: req.body.status,
         updatedAt: Date.now(),
       },

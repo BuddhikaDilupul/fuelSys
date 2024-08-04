@@ -137,3 +137,14 @@ GET /report/v1-report/pumper-reports 200 69 - 790.252 ms
 GET /report/v1-report/pumper-reports 200 137 - 155.126 ms
 GET /report/v1-report/pumper-reports 500 55 - 5.133 ms
 GET /report/v1-report/pumper-reports 500 55 - 10.994 ms
+GET /report/v1-report/pumper-reports 200 2 - 325.473 ms
+GET /report/v1-report/pumper-reports 200 2 - 74.798 ms
+GET /report/v1-report/pumper-reports 200 2 - 73.099 ms
+GET /report/v1-report/pumper-reports 200 2 - 71.839 ms
+GET /report/v1-report/pumper-reports 200 2 - 74.494 ms
+GET /report/v1-report/assignedTo/milshan 500 23 - 36.179 ms
+GET /report/v1-report/assignedTo/milshan 404 47 - 74.567 ms
+POST /report/v1-cash/status/66af8013d2d79cb56938a843 400 34 - 19.209 ms
+POST /report/v1-cash/status/66af8013d2d79cb56938a843 400 31 - 87.447 ms
+POST /report/v1-cash/status/66af8013d2d79cb56938a843 400 31 - 154.301 ms
+POST /report/v1-cash/status/66af8013d2d79cb56938a843 400 31 - 135.455 ms

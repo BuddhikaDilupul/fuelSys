@@ -15,7 +15,7 @@ exports.createReport = async (req, res) => {
     });
 
     // Save the report
-    const savedReport = await newReport.save();
+    await newReport.save();
 
     // Update the statuses for each item in the itemList
     const updatePromises = itemList.map(async (item) => {
@@ -50,7 +50,6 @@ exports.createReport = async (req, res) => {
         default:
           throw new Error(`Unknown item type: ${item.itemType}`);
       }
-      return model.updateOne({ _id: item.reportId }, { status: "submitted" });
 
     });
 
