@@ -108,12 +108,13 @@ exports.updateBillStatus = async (req, res) => {
   try {
     const prevATM = await ATM.findOne(
       { _id: reportId, "billdata._id": itemId },
-      "billdata.amount" // Filter criteria
+      { "billdata.$": 1 }
     );
     console.log(prevATM);
-    if (status != "rejected") {
+    if (status !== "rejected") {
       prevATM = 0;
     }
+    console.log(prevATM);
 
     const updatedATM = await ATM.findOneAndUpdate(
       { _id: reportId, "billdata._id": itemId }, // Filter criteria
