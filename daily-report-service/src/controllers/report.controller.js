@@ -21,7 +21,7 @@ exports.createReport = async (req, res) => {
     const updatePromises = itemList.map(async (item) => {
       switch (item.itemType) {
         case "Cash":
-          model.updateOne(
+          Cash.updateOne(
             { _id: item.reportId },
             { status: "submitted" }
           );
@@ -30,7 +30,7 @@ exports.createReport = async (req, res) => {
             { status: "submitted" }
           );
         case "ATM":
-          model.updateOne(
+          ATM.updateOne(
             { _id: item.reportId },
             { status: "submitted" }
           );
@@ -39,7 +39,7 @@ exports.createReport = async (req, res) => {
             { $set: { 'billdata.$[].status': "submitted" } }
           );
         case "Creditors":
-          model.updateOne(
+          Creditors.updateOne(
             { _id: item.reportId },
             { status: "submitted" }
           );
