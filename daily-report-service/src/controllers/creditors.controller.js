@@ -44,16 +44,16 @@ exports.getCreditorsByPumperId = async (req, res) => {
     const { id: pumperId } = req.params;
 
     // Find the creditors record by pumperId
-    const creditors = await Creditors.find({
+    const report = await Creditors.find({
       "createdBy.pumperId": pumperId,
     });
 
     // Check if the creditors record is found
-    if (!creditors) {
+    if (!report) {
       return res.status(404).json({ message: "Creditors record not found" });
     }
 
-    res.json({ creditors });
+    res.json({ report });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
