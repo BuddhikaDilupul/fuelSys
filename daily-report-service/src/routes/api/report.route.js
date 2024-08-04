@@ -14,13 +14,6 @@ router.post(
 );
 
 
-// Get a Report by ID
-router.get(
-  "/assignedTo/:username",
-  authenticate,
-  authorize([ROLES.admin, ROLES.manager]),
-  reportController.getReportByAssignedPerson
-);
 
 // Get all Reports
 router.get(
@@ -46,6 +39,15 @@ router.put(
   authorize([ROLES.admin, ROLES.manager]),
   reportController.updateReportById
 );
+
+// Get a Report by ID
+router.get(
+  "/assignedTo/:username",
+  authenticate,
+  authorize([ROLES.admin, ROLES.manager]),
+  reportController.getReportByAssignedPerson
+);
+
 
 // Delete a Report by ID
 router.delete(
