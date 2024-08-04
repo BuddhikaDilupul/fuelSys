@@ -130,6 +130,18 @@ exports.getAllReports = async (req, res) => {
   }
 };
 
+// Get Reports with pumper
+exports.getAllReports = async (req, res) => {
+  try {
+    const reports = await Report.find(
+      "_id createdBy.username "
+    )
+    res.json(reports);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // Update a Report by ID
 exports.updateReportById = async (req, res) => {
   try {

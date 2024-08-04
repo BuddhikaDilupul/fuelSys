@@ -37,6 +37,14 @@ router.get(
   reportController.getAllReports
 );
 
+// Get all pumper Reports
+router.get(
+  "/pumper-reports",
+  authenticate,
+  authorize([ROLES.admin, ROLES.manager]),
+  reportController.getAllReportsSubmittedByPumper
+);
+
 // Update a Report by ID
 router.put(
   "/report/update/:id",
