@@ -104,7 +104,8 @@ exports.updateATMById = async (req, res) => {
 exports.updateBillStatus = async (req, res) => {
   const { itemId, status, index } = req.body;
   const reportId = req.params.id;
-
+  console.log(status);
+  
   try {
     let missMatchedAmount;
 
