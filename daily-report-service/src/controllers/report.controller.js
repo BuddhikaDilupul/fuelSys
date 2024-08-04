@@ -28,14 +28,14 @@ exports.createReport = async (req, res) => {
         case "ATM":
           model = ATM;
           await ATM.findOneAndUpdate(
-            { $set: { 'billdata.$.status': submitted } }, 
+            { $set: { 'billdata.$.status': "submitted" } }, 
             { new: true }
           );
           break;
         case "Creditors":
           model = Creditors;
           await ATM.findOneAndUpdate(
-            { $set: { 'creditorData.$.status': submitted } }, 
+            { $set: { 'creditorData.$.status': "submitted" } }, 
             { new: true }
           );
           break;
