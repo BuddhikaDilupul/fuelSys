@@ -49,7 +49,7 @@ const creditorsSchema = new Schema({
     type: Number,
     required: true,
   },
-  fuelSummery: {
+  fuelSummery: [{
     fuelType: {
       type: String,
       required: true,
@@ -62,7 +62,7 @@ const creditorsSchema = new Schema({
       type: Number,
       required: true,
     },
-  },
+  }],
   createdBy: {
     pumperId: {
       type: String,
