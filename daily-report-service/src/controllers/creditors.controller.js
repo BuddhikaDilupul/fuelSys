@@ -114,17 +114,13 @@ exports.getAllCreditors = async (req, res) => {
 exports.updateCreditorsById = async (req, res) => {
   const { itemId, status } = req.body;
   const reportId = req.params.id;
-  const fuelSummery = [
-    { fuelType: "Gasoline", totalAmount: 100, totalPrice: 100 },
-    { fuelType: "Diesel", totalAmount: 200, totalPrice: 200 },
-  ];
 
   try {
     const prevData = await Creditors.findOne(
       { _id: reportId, "creditorData._id": itemId },
     );
-
-    console.log(prevData);
+    let fuelSummery=prevData.fuelSummery
+    console.log(fuelSummery);
     
     let missMatched = 0;
     if (status === "rejected") {
