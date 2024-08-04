@@ -21,16 +21,28 @@ exports.createReport = async (req, res) => {
     const updatePromises = itemList.map(async (item) => {
       switch (item.itemType) {
         case "Cash":
+          model.updateOne(
+            { _id: item.reportId },
+            { status: "submitted" }
+          );
           return Cash.updateOne(
             { _id: item.reportId },
             { status: "submitted" }
           );
         case "ATM":
+          model.updateOne(
+            { _id: item.reportId },
+            { status: "submitted" }
+          );
           return ATM.updateOne(
             { _id: item.reportId },
             { $set: { 'billdata.$[].status': "submitted" } }
           );
         case "Creditors":
+          model.updateOne(
+            { _id: item.reportId },
+            { status: "submitted" }
+          );
           return Creditors.updateOne(
             { _id: item.reportId },
             { $set: { 'creditorData.$[].status': "submitted" } }
@@ -38,6 +50,8 @@ exports.createReport = async (req, res) => {
         default:
           throw new Error(`Unknown item type: ${item.itemType}`);
       }
+      return model.updateOne({ _id: item.reportId }, { status: "submitted" });
+
     });
 
     // Wait for all update operations to complete
