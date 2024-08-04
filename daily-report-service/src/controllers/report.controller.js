@@ -5,7 +5,7 @@ const Creditors = require("../models/creditors.model"); // Adjust path as needed
 
 exports.createReport = async (req, res) => {
   try {
-    const { itemList, createdBy, assignedTo } = req.body; // Make sure `assignedTo` is included here
+    const { itemList, createdBy, assignedTo } = req.body;
 
     // Create a new Report instance
     const newReport = new Report({
@@ -16,38 +16,34 @@ exports.createReport = async (req, res) => {
 
     // Save the report
     const savedReport = await newReport.save();
-    // Update the statuses for each item in the itemList
-    const updatePromises = savedReport.itemList.map(async (item) => {
-      let model;
 
+    // Update the statuses for each item in the itemList
+    const updatePromises = itemList.map(async (item) => {
       switch (item.itemType) {
         case "Cash":
-          model = Cash;
-          Cash.updateOne({ _id: item.reportId }, { status: "submitted" });
-          break;
+          return Cash.updateOne(
+            { _id: item.reportId },
+            { status: "submitted" }
+          );
         case "ATM":
-          model = ATM;
-          await ATM.findOneAndUpdate(
-            { $set: { 'billdata.$.status': "submitted" } }, 
-            { new: true }
+          return ATM.updateOne(
+            { _id: item.reportId },
+            { $set: { 'billdata.$[].status': "submitted" } }
           );
-          break;
         case "Creditors":
-          model = Creditors;
-          await ATM.findOneAndUpdate(
-            { $set: { 'creditorData.$.status': "submitted" } }, 
-            { new: true }
+          return Creditors.updateOne(
+            { _id: item.reportId },
+            { $set: { 'creditorData.$[].status': "submitted" } }
           );
-          break;
         default:
           throw new Error(`Unknown item type: ${item.itemType}`);
       }
-      return model.updateOne({ _id: item.reportId }, { status: "submitted" });
     });
 
     // Wait for all update operations to complete
     await Promise.all(updatePromises);
-    res.status(201).json("submitted sucessfully");
+
+    res.status(201).json("Submitted successfully");
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
