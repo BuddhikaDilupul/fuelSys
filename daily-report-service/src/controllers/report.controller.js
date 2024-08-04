@@ -5,7 +5,7 @@ const Creditors = require("../models/creditors.model"); // Adjust path as needed
 
 exports.createReport = async (req, res) => {
   try {
-    const { itemList, createdBy, status, assignedTo } = req.body; // Make sure `assignedTo` is included here
+    const { itemList, createdBy, assignedTo } = req.body; // Make sure `assignedTo` is included here
 
     // Create a new Report instance
     const newReport = new Report({
@@ -23,19 +23,25 @@ exports.createReport = async (req, res) => {
       switch (item.itemType) {
         case "Cash":
           model = Cash;
+          Cash.updateOne({ _id: item.reportId }, { status: "submitted" });
           break;
         case "ATM":
           model = ATM;
+          await ATM.findOneAndUpdate(
+            { $set: { 'billdata.$.status': submitted } }, 
+            { new: true }
+          );
           break;
         case "Creditors":
           model = Creditors;
+          await ATM.findOneAndUpdate(
+            { $set: { 'creditorData.$.status': submitted } }, 
+            { new: true }
+          );
           break;
         default:
           throw new Error(`Unknown item type: ${item.itemType}`);
       }
-      console.log(item, ">>>>");
-
-      // Update the status
       return model.updateOne({ _id: item.reportId }, { status: "submitted" });
     });
 
