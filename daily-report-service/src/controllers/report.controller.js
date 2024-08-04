@@ -90,7 +90,9 @@ exports.getReportByAssignedPerson = async (req, res) => {
     const reports = await Report.find({ "assignedTo.username": username });
 
     if (!reports || reports.length === 0) {
-      return res.status(404).json({ message: `No reports found for user ${username}` });
+      return res
+        .status(404)
+        .json({ message: `No reports found for user ${username}` });
     }
 
     // Populate itemList for each report
@@ -123,19 +125,16 @@ exports.getReportByAssignedPerson = async (req, res) => {
 // Get all Reports
 exports.getAllReports = async (req, res) => {
   try {
-    const reports = await Report.find().populate("itemList.reportId"); // Populate referenced documents
+    const reports = await Report.find();
     res.json(reports);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Get Reports with pumper
 exports.getAllReportsSubmittedByPumper = async (req, res) => {
   try {
-    const reports = await Report.find(
-      "_id createdBy.username "
-    )
+    const reports = await Report.find({}).select(" _id createdBy.username");
     res.json(reports);
   } catch (error) {
     res.status(500).json({ error: error.message });

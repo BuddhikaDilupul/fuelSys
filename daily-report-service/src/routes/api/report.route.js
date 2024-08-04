@@ -13,13 +13,6 @@ router.post(
   reportController.createReport
 );
 
-// Get a Report by ID
-router.get(
-  "/:id",
-  authenticate,
-  authorize([ROLES.admin, ROLES.manager]),
-  reportController.getReportById
-);
 
 // Get a Report by ID
 router.get(
@@ -45,6 +38,7 @@ router.get(
   reportController.getAllReportsSubmittedByPumper
 );
 
+
 // Update a Report by ID
 router.put(
   "/report/update/:id",
@@ -60,5 +54,16 @@ router.delete(
   authorize([ROLES.admin, ROLES.manager]),
   reportController.deleteReportById
 );
+
+
+
+// Get a Report by ID
+router.get(
+  "/:id",
+  authenticate,
+  authorize([ROLES.admin, ROLES.manager]),
+  reportController.getReportById
+);
+
 
 module.exports = router;
