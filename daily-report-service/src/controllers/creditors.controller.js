@@ -158,14 +158,14 @@ exports.updateCreditorsById = async (req, res) => {
 
     // Update the fuelSummery array
     updateFuelSummery(fuelSummery, temp);
-    // const updatedData = await Creditors.findOneAndUpdate(
-    //   { _id: reportId, "creditorData._id": itemId }, // Filter criteria
-    //   {
-    //     $set: { "creditorData.$.status": status },
-    //     $inc: { totalAmount: -missMatched },
-    //   }, // Update operation
-    //   { new: true } // Return the updated document
-    // );
+    const updatedData = await Creditors.findOneAndUpdate(
+      { _id: reportId, "creditorData._id": itemId }, // Filter criteria
+      {
+        $set: { "creditorData.$.status": status },
+        $inc: { totalAmount: -missMatched },
+      }, // Update operation
+      { new: true } // Return the updated document
+    );
 
     if (!updatedData) {
       return res.status(404).json({ message: "ATM record or bill not found" });
