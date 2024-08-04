@@ -3,46 +3,23 @@ const router = express.Router();
 const { authenticate } = require("../../middlewares/authenticate");
 const ROLES = require("../../../ROLES");
 const { authorize } = require("../../middlewares/authorize");
-const cashController = require("../../controllers/cash.controller");
-const createontroller = require("../../controllers/creditors.controller");
+const creditController = require("../../controllers/creditors.controller");
 
 // Create a new Cash record
 router.post(
   "/save",
   authenticate,
   authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
-  createontroller.createCreditors
+  creditController.createCreditors
 );
 
-// Get a Cash record by ID
-router.get(
-  "/:id",
-  authenticate,
-  authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
-  cashController.getCashById
-);
-// Get a Cash record by ID
-router.get(
-  "/pumper/:id",
-  authenticate,
-  authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
-  createontroller.getCreditorsByPumperId
-);
-
-// Get all Cash records
-router.get(
-  "/cash",
-  authenticate,
-  authorize([ROLES.admin, ROLES.manager]),
-  cashController.getAllCash
-);
 
 // Update a Cash record by ID
 router.put(
-  "/cash/update/:id",
+  "/:id",
   authenticate,
   authorize([ROLES.admin, ROLES.manager]),
-  cashController.updateCashById
+  cashController.
 );
 
 // Delete a Cash record by ID

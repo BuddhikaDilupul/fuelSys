@@ -68,7 +68,7 @@ exports.getCreditorsByPumperId = async (req, res) => {
     const fuelSummary = creditors?.reduce((acc, creditor) => {
       creditor.creditorData.forEach((data) => {
         const { fuelType, fuelAmount, fuelPrice } = data;
-    
+
         // If the fuelType already exists in the accumulator, update the totals
         if (acc[fuelType]) {
           acc[fuelType].totalAmount += fuelAmount;
@@ -81,19 +81,19 @@ exports.getCreditorsByPumperId = async (req, res) => {
           };
         }
       });
-    
+
       return acc;
     }, {});
-    
+
     // Convert the result to an array of objects if needed
     const fuelSummaryArray = Object.keys(fuelSummary).map((fuelType) => ({
       fuelType,
       totalAmount: fuelSummary[fuelType].totalAmount,
       totalPrice: fuelSummary[fuelType].totalPrice,
     }));
-    
+
     console.log(fuelSummaryArray);
-    
+
     res.json({ report, fuelSummary });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -112,22 +112,72 @@ exports.getAllCreditors = async (req, res) => {
 
 // Update a Creditors record by ID
 exports.updateCreditorsById = async (req, res) => {
-  try {
-    const { creditorData, createdBy, status } = req.body;
+  const { itemId, status } = req.body;
+  const reportId = req.params.id;
+  const fuelSummery = [
+    { fuelType: "Gasoline", totalAmount: 100, totalPrice: 100 },
+    { fuelType: "Diesel", totalAmount: 200, totalPrice: 200 },
+  ];
 
-    const creditors = await Creditors.findById(req.params.id);
-    if (!creditors) {
-      return res.status(404).json({ message: "Creditors record not found" });
+  try {
+    const prevData = await Creditors.findOne(
+      { _id: reportId, "creditorData._id": itemId },
+    );
+
+    console.log(prevData);
+    
+    let missMatched = 0;
+    if (status === "rejected") {
+      missMatched = prevData.creditorData[0].amount;
+    }
+    let temp = {
+      fuelType: prevData.creditorData[0].fuelType,
+      totalAmount: prevData.creditorData[0].fuelAmount,
+      totalPrice:
+        prevData.creditorData[0].fuelAmount *
+        prevData.creditorData[0].fuelPrice,
+    };
+    // Function to update or append fuelSummery
+    function updateFuelSummery(fuelSummery, temp) {
+      // Check if fuelType already exists
+      let fuelTypeExists = false;
+
+      for (let i = 0; i < fuelSummery.length; i++) {
+        if (fuelSummery[i].fuelType === temp.fuelType) {
+          // If fuelType exists, add the totalAmount and totalPrice to existing values
+          fuelSummery[i].totalAmount += temp.totalAmount;
+          fuelSummery[i].totalPrice += temp.totalPrice;
+          fuelTypeExists = true;
+          break;
+        }
+      }
+
+      // If fuelType does not exist, append the new object
+      if (!fuelTypeExists) {
+        fuelSummery.push(temp);
+      }
+
+      return fuelSummery;
     }
 
-    if (creditorData !== undefined) creditors.creditorData = creditorData;
-    if (createdBy !== undefined) creditors.createdBy = createdBy;
-    if (status !== undefined) creditors.status = status;
+    // Update the fuelSummery array
+    updateFuelSummery(fuelSummery, temp);
+    // const updatedData = await Creditors.findOneAndUpdate(
+    //   { _id: reportId, "creditorData._id": itemId }, // Filter criteria
+    //   {
+    //     $set: { "creditorData.$.status": status },
+    //     $inc: { totalAmount: -missMatched },
+    //   }, // Update operation
+    //   { new: true } // Return the updated document
+    // );
 
-    await creditors.save();
-    res.json(creditors);
+    if (!updatedData) {
+      return res.status(404).json({ message: "ATM record or bill not found" });
+    }
+
+    res.json(updatedData);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
