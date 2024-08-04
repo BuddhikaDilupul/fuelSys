@@ -21,29 +21,29 @@ exports.createReport = async (req, res) => {
     const updatePromises = itemList.map(async (item) => {
       switch (item.itemType) {
         case "Cash":
-          Cash.updateOne(
+          await Cash.updateOne(
             { _id: item.reportId },
             { status: "submitted" }
           );
-          return Cash.updateOne(
+          return await Cash.updateOne(
             { _id: item.reportId },
             { status: "submitted" }
           );
         case "ATM":
-          ATM.updateOne(
+          await ATM.updateOne(
             { _id: item.reportId },
             { status: "submitted" }
           );
-          return ATM.updateOne(
+          return await ATM.updateOne(
             { _id: item.reportId },
             { $set: { 'billdata.$[].status': "submitted" } }
           );
         case "Creditors":
-          Creditors.updateOne(
+          await Creditors.updateOne(
             { _id: item.reportId },
             { status: "submitted" }
           );
-          return Creditors.updateOne(
+          return await Creditors.updateOne(
             { _id: item.reportId },
             { $set: { 'creditorData.$[].status': "submitted" } }
           );
