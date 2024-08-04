@@ -40,7 +40,7 @@ exports.getCreditorsById = async (req, res) => {
 
 exports.getCreditorsByPumperId = async (req, res) => {
   try {
-    let totalAmount =0;
+    let totalAmount = 0;
     // Extract pumperId and fuelType from request parameters or query
     const { id: pumperId } = req.params;
 
@@ -49,17 +49,17 @@ exports.getCreditorsByPumperId = async (req, res) => {
       "createdBy.pumperId": pumperId,
     });
     console.log(report);
-    report.map(data=>{
+    report.map((data) => {
       console.log(data.totalAmount);
-      
-      totalAmount+=data.totalAmount
-    })
+
+      totalAmount += data.totalAmount;
+    });
     // Check if the creditors record is found
     if (!report) {
       return res.status(404).json({ message: "Creditors record not found" });
     }
 
-    res.json({ report ,totalAmount});
+    res.json({ report, totalAmount });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -81,10 +81,14 @@ exports.updateCreditorsById = async (req, res) => {
   const reportId = req.params.id;
 
   try {
-    const prevData = await Creditors.findOne(
-      { _id: reportId, "creditorData._id": itemId }
-    );
-
+    const prevData = await Creditors.findOne({
+      _id: reportId,
+      "creditorData._id": itemId,
+    });
+    let missMatched = 0;
+    if (status === "rejected") {
+      missMatched = prevData.creditorData[0].amount;
+    }
     if (!prevData) {
       return res.status(404).json({ message: "Report not found" });
     }
@@ -126,8 +130,9 @@ exports.updateCreditorsById = async (req, res) => {
       {
         $set: {
           "creditorData.$.status": status,
-          fuelSummery: fuelSummery,
         },
+        $inc: { totalAmount: -missMatched },
+        fuelSummery: fuelSummery,
       },
       { new: true }
     );
