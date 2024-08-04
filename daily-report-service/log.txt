@@ -148,3 +148,11 @@ POST /report/v1-cash/status/66af8013d2d79cb56938a843 400 34 - 19.209 ms
 POST /report/v1-cash/status/66af8013d2d79cb56938a843 400 31 - 87.447 ms
 POST /report/v1-cash/status/66af8013d2d79cb56938a843 400 31 - 154.301 ms
 POST /report/v1-cash/status/66af8013d2d79cb56938a843 400 31 - 135.455 ms
+PUT /report/v1-cash/status/66af8029d2d79cb56938a84d 404 185 - 22.165 ms
+PUT /report/v1-cash/66af8029d2d79cb56938a84d 404 178 - 2.847 ms
+PUT /report/v1-atm/66af8029d2d79cb56938a84d 400 187 - 96.956 ms
+PUT /report/v1-atm/66af8029d2d79cb56938a84d 400 187 - 123.137 ms
+PUT /report/v1-atm/66af8029d2d79cb56938a84d 200 428 - 204.729 ms
+PUT /report/v1-atm/66af8029d2d79cb56938a84d 200 428 - 172.219 ms
+PUT /report/v1-atm/66af8029d2d79cb56938a84d 200 428 - 159.465 ms
+PUT /report/v1-atm/66af8029d2d79cb56938a84d 200 427 - 104.915 ms

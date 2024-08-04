@@ -40,7 +40,7 @@ router.put(
   "/:id",
   authenticate,
   authorize([ROLES.admin, ROLES.manager]),
-  atmController.updateATMById
+  atmController.updateBillStatus
 );
 
 // Delete an ATM report by ID

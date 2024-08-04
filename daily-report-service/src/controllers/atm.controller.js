@@ -102,25 +102,16 @@ exports.updateATMById = async (req, res) => {
 
 // Update status of a specific bill
 exports.updateBillStatus = async (req, res) => {
-  const { itemId, status, index } = req.body;
+  const { itemId, status } = req.body;
   const reportId = req.params.id;
-  console.log(status);
-  
-  try {
-    let missMatchedAmount;
 
+  try {
     const updatedATM = await ATM.findOneAndUpdate(
       { _id: reportId, "billdata._id": itemId }, // Filter criteria
       { $set: { "billdata.$.status": status } }, // Update operation
       { new: true } // Return the updated document
     );
-    // const prevATM = await ATM.findOne(
-    //   { _id: atmId, "billdata.$[]._id": billId },
-    //   "billdata._id"
-    // );
-    // if (reqmbody.status === "rejected") {
-    //   missMatchedAmount = prevATM.totalAmount;
-    // }
+
     if (!updatedATM) {
       return res.status(404).json({ message: "ATM record or bill not found" });
     }
