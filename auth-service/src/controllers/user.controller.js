@@ -63,6 +63,24 @@ exports.getAllManagers = async (req, res, next) => {
   }
 };
 
+// Get all getAllPumpers
+exports.getAllPumpers = async (req, res, next) => {
+  try {
+    const users = await userModel.find(
+      { role: "PUMPERS" },
+      "_id name username email phoneNumber role status"
+    );
+
+    if (users && users.length > 0) {
+      return res.status(httpStatus.OK).send(users);
+    }
+
+    return res.status(httpStatus.NOT_FOUND).send("Users not found");
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Update user data
 exports.updateUserData = async (req, res, next) => {
   try {

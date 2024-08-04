@@ -14,6 +14,12 @@ router.get(
   authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
   getUserController.getAllManagers
 );
+router.get(
+  "/pumpers",
+  authenticate,
+  authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
+  getUserController.getAllManagers
+);
 
 router.get(
   "/",
