@@ -40,6 +40,7 @@ exports.getCreditorsById = async (req, res) => {
 
 exports.getCreditorsByPumperId = async (req, res) => {
   try {
+    let totalAmount =0;
     // Extract pumperId and fuelType from request parameters or query
     const { id: pumperId } = req.params;
 
@@ -47,13 +48,18 @@ exports.getCreditorsByPumperId = async (req, res) => {
     const report = await Creditors.find({
       "createdBy.pumperId": pumperId,
     });
-
+    console.log(report);
+    report.map(data=>{
+      console.log(data.totalAmount);
+      
+      totalAmount+=data.totalAmount
+    })
     // Check if the creditors record is found
     if (!report) {
       return res.status(404).json({ message: "Creditors record not found" });
     }
 
-    res.json({ report });
+    res.json({ report ,totalAmount});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
