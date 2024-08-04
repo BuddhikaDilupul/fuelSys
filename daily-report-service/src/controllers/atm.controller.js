@@ -106,7 +106,7 @@ exports.updateBillStatus = async (req, res) => {
   const reportId = req.params.id;
 
   try {
-    const prevATM = await ATM.findOne(
+    let prevATM = await ATM.findOne(
       { _id: reportId, "billdata._id": itemId },
       { "billdata.$": 1 }
     );
