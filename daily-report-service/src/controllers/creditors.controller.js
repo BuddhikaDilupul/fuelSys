@@ -82,15 +82,15 @@ exports.updateCreditorsById = async (req, res) => {
 
   try {
     const prevData = await Creditors.findOne(
-      { _id: reportId, "creditorData._id": itemId },
+      { _id: reportId, "creditorData._id": itemId }
     );
-    let fuelSummery=prevData.fuelSummery
-    console.log(fuelSummery);
-    
-    let missMatched = 0;
-    if (status === "rejected") {
-      missMatched = prevData.creditorData[0].amount;
+
+    if (!prevData) {
+      return res.status(404).json({ message: "Report not found" });
     }
+
+    let fuelSummery = prevData.fuelSummery || [];
+
     let temp = {
       fuelType: prevData.creditorData[0].fuelType,
       totalAmount: prevData.creditorData[0].fuelAmount,
@@ -98,16 +98,13 @@ exports.updateCreditorsById = async (req, res) => {
         prevData.creditorData[0].fuelAmount *
         prevData.creditorData[0].fuelPrice,
     };
-    console.log(temp);
-    
+
     // Function to update or append fuelSummery
     function updateFuelSummery(fuelSummery, temp) {
-      // Check if fuelType already exists
       let fuelTypeExists = false;
 
       for (let i = 0; i < fuelSummery.length; i++) {
         if (fuelSummery[i].fuelType === temp.fuelType) {
-          // If fuelType exists, add the totalAmount and totalPrice to existing values
           fuelSummery[i].totalAmount += temp.totalAmount;
           fuelSummery[i].totalPrice += temp.totalPrice;
           fuelTypeExists = true;
@@ -115,7 +112,6 @@ exports.updateCreditorsById = async (req, res) => {
         }
       }
 
-      // If fuelType does not exist, append the new object
       if (!fuelTypeExists) {
         fuelSummery.push(temp);
       }
@@ -123,19 +119,21 @@ exports.updateCreditorsById = async (req, res) => {
       return fuelSummery;
     }
 
-    // Update the fuelSummery array
-    updateFuelSummery(fuelSummery, temp);
+    fuelSummery = updateFuelSummery(fuelSummery, temp);
+
     const updatedData = await Creditors.findOneAndUpdate(
-      { _id: reportId, "creditorData._id": itemId }, // Filter criteria
+      { _id: reportId, "creditorData._id": itemId },
       {
-        $set: { "creditorData.$.status": status },
-        $inc: { totalAmount: -missMatched },
-      }, // Update operation
-      { new: true } // Return the updated document
+        $set: {
+          "creditorData.$.status": status,
+          fuelSummery: fuelSummery,
+        },
+      },
+      { new: true }
     );
 
     if (!updatedData) {
-      return res.status(404).json({ message: "ATM record or bill not found" });
+      return res.status(404).json({ message: "Record or bill not found" });
     }
 
     res.json(updatedData);
