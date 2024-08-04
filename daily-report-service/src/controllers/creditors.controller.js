@@ -53,7 +53,7 @@ exports.getCreditorsByPumperId = async (req, res) => {
       return res.status(404).json({ message: "Creditors record not found" });
     }
 
-    res.json({ report });
+    res.json({ creditors });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
