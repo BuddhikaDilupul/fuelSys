@@ -131,7 +131,7 @@ exports.getAllReports = async (req, res) => {
 };
 
 // Get Reports with pumper
-exports.getAllReports = async (req, res) => {
+exports.getAllReportsSubmittedByPumper = async (req, res) => {
   try {
     const reports = await Report.find(
       "_id createdBy.username "
