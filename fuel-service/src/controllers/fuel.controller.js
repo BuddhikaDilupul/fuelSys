@@ -11,7 +11,7 @@ exports.createFuel = async (req, res) => {
       fuel,
       price,
     });
-    const isExist = priceOverFuel.findOne({fuel})
+    const isExist = await priceOverFuel.findOne({fuel})
     if (isExist) {
       return res.status(400).json({ message: "Fuel already exist" });
       }
