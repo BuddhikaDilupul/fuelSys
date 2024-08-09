@@ -3,7 +3,7 @@ const Pump = require("../models/pump.model");
 
 const getFuelData = async () => {
   try {
-    const response = await axios.get(`http://localhost:4043/fuel/v1/sys/view`);
+    const response = await axios.get(`http://localhost:4042/fuel/v1/sys/view`);
     return response.data;
   } catch (error) {
     console.error("Error fetching fuel data:", error);

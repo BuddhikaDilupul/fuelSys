@@ -127,3 +127,8 @@ POST /pump-management/v1/pump/admin/save 403 28 - 69.775 ms
 POST /pump-management/v1/pump/admin/save 403 28 - 66.613 ms
 POST /pump-management/v1/pump/admin/save 403 28 - 65.620 ms
 POST /pump-management/v1/pump/admin/save 422 29 - 6.116 ms
+GET /pump-management/v1/pump/all/view 500 29 - 26.234 ms
+GET /pump-management/v1/pump/all/view 500 37 - 50.842 ms
+GET /pump-management/v1/pump/all/view 500 37 - 18.328 ms
+GET /pump-management/v1/pump/all/view 500 37 - 21.965 ms
+GET /pump-management/v1/pump/all/view 200 495 - 183.194 ms
