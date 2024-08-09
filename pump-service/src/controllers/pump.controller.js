@@ -31,7 +31,7 @@ exports.savePump = async (req, res) => {
   }
 };
 
-// update pump state
+// update pump state with user
 exports.updatePumpState = async (req, res) => {
   try {
     const pumpCheckBeforeUse = await Pump.findOne({
@@ -54,6 +54,26 @@ exports.updatePumpState = async (req, res) => {
       if (pumpCheck) {
         res.status(200).send("Successfully updated !");
       }
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+// unsave pump state with user
+exports.updatePumpStateToFree = async (req, res) => {
+  try {
+    const pumpCheck = await Pump.findByIdAndUpdate(
+      {
+        status: "idle",
+        curruntUserId: null,
+      },
+      {
+        new: true,
+      }
+    );
+    if (pumpCheck) {
+      res.status(200).send("Successfully updated !");
     }
   } catch (error) {
     res.status(400).json({ error: error.message });

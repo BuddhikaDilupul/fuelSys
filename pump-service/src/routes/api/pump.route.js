@@ -16,10 +16,16 @@ router.post(
   pumpController.savePump
 );
 router.put(
-  "/admin/statusUpdate/:id",
+  "/admin/updatePumpStateToInUse/:id",
   authenticate,
   authorize([ROLES.admin, ROLES.manager]),
   pumpController.updatePumpState
+);
+router.put(
+  "/admin/updatePumpStateToFree/:id",
+  authenticate,
+  authorize([ROLES.admin, ROLES.manager]),
+  pumpController.updatePumpStateToFree
 );
 router.get(
   "/all/view",
