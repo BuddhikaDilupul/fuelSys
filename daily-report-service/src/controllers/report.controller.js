@@ -154,11 +154,11 @@ exports.getAllReportsSubmittedByPumper = async (req, res) => {
 exports.updateReportById = async (req, res) => {
   try {
     const reportId = req.params.id;
-    const pumpDetails  = req.body;
+    const pumpDetails = req.body;
     console.log(req.body, pumpDetails);
-    
-    pumpDetails?.map(async (data) => {
-      const pupmData = await getPumpData(pumpDetails.pumpId);
+
+    pumpDetails?.map(async (data, id) => {
+      const pupmData = await getPumpData(pumpDetails[id].pumpId);
       let totalDistributedFuelFromPump =
         data.digitalMeter.closed - data.manualMeter.open;
       let totalEarnPriceFromPump =
@@ -173,7 +173,7 @@ exports.updateReportById = async (req, res) => {
         pumpDetails,
       },
       { new: true }
-    )
+    );
     res.json(report);
   } catch (error) {
     res.status(400).json({ error: error.message });
