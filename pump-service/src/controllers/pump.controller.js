@@ -33,8 +33,8 @@ exports.savePump = async (req, res) => {
 
 // update pump state with user
 exports.updatePumpStateToInUse = async (req, res) => {
-  console.log(req.userId,"req.userId");
-  
+  console.log(req.userId, "req.userId");
+
   try {
     const pumpCheckBeforeUse = await Pump.findOne({
       _id: req.params.id,
@@ -68,7 +68,8 @@ exports.updatePumpStateToInUse = async (req, res) => {
 // unsave pump state with user
 exports.updatePumpStateToFree = async (req, res) => {
   try {
-    const pumpCheck = await Pump.findByIdAndUpdate(
+    const pumpCheck = await Pump.findOneAndUpdate(
+      { status: "in_use", currentUserId: req.userId, _id: req.params.id },
       {
         status: "idle",
         curruntUserId: null,
@@ -97,7 +98,7 @@ exports.getAllPumps = async (req, res) => {
     }, {});
 
     // Fetch pump data
-    const pumps = await Pump.find({ });
+    const pumps = await Pump.find({});
 
     // Update pumps with fuel data
     const updatedPumps = pumps.map((item) => {
