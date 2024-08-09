@@ -132,3 +132,6 @@ GET /pump-management/v1/pump/all/view 500 37 - 50.842 ms
 GET /pump-management/v1/pump/all/view 500 37 - 18.328 ms
 GET /pump-management/v1/pump/all/view 500 37 - 21.965 ms
 GET /pump-management/v1/pump/all/view 200 495 - 183.194 ms
+GET /pump-management/v1/pump//sys/66b5cbf804028846ad1cb0b4 500 37 - 44.326 ms
+GET /pump-management/v1/pump//sys/66b5cbf804028846ad1cb0b4 500 37 - 20.255 ms
+GET /pump-management/v1/pump//sys/66b5cbf804028846ad1cb0b4 200 269 - 128.848 ms

@@ -43,6 +43,7 @@ exports.updatePumpStateToInUse = async (req, res) => {
       res.status(403).send("Already In use");
     } else {
       const pumpCheck = await Pump.findByIdAndUpdate(
+        req.params.id,
         {
           status: "in_use",
           curruntUserId: req.userId,
