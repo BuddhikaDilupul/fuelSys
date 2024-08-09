@@ -80,10 +80,35 @@ exports.updatePumpStateToFree = async (req, res) => {
     );
 
     if (pumpCheck) {
-      res.status(200).json({ message: "Successfully updated!", id: req.params.id });
+      res
+        .status(200)
+        .json({ message: "Successfully updated!", id: req.params.id });
     } else {
       res.status(400).json({ message: "Not found!", id: req.params.id });
     }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+exports.updatePumpListStateToFree = async (req, res) => {
+  try {
+    list = req.body;
+    list?.map(async (data) => {
+     await Pump.findByIdAndUpdate(
+        data?.id,
+        {
+          status: "idle",
+          currentUserId: null, // Corrected the field name
+        },
+        {
+          new: true,
+        }
+      );
+    });
+
+      res
+        .status(200)
+        .json({ message: "Successfully updated!", id: req.params.id });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
