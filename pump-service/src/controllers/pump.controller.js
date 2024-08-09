@@ -33,13 +33,15 @@ exports.savePump = async (req, res) => {
 
 // update pump state with user
 exports.updatePumpStateToInUse = async (req, res) => {
+  console.log(req.userId,"req.userId");
+  
   try {
     const pumpCheckBeforeUse = await Pump.findOne({
       _id: req.params.id,
       status: "idle",
       curruntUserId: null,
     });
-    if (!pumpCheckBeforeUse) {
+    if (pumpCheckBeforeUse) {
       console.log(pumpCheckBeforeUse);
       
       res.status(403).send("Already In use");
