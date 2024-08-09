@@ -1,4 +1,5 @@
 const Fuel = require("../models/fuel.model");
+const priceOverFuelModel = require("../models/priceOverFuel.model");
 const priceOverFuel = require("../models/priceOverFuel.model");
 
 // Create a new fuel entry
@@ -10,7 +11,10 @@ exports.createFuel = async (req, res) => {
       fuel,
       price,
     });
-
+    const isExist = priceOverFuel.findOne({fuel})
+    if (isExist) {
+      return res.status(400).json({ message: "Fuel already exist" });
+      }
     const newPriceOverFuel = new priceOverFuel({
       fuel,
       price,
