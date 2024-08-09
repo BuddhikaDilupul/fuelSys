@@ -72,16 +72,17 @@ exports.updatePumpStateToFree = async (req, res) => {
       { status: "in_use", currentUserId: req.userId, _id: req.params.id },
       {
         status: "idle",
-        curruntUserId: null,
+        currentUserId: null, // Corrected the field name
       },
       {
         new: true,
       }
     );
+
     if (pumpCheck) {
-      res.status(200).JSON({message:"Successfully updated !", id: req.params.id });
-    }else{
-      res.status(400).JSON({message:"Not found !", id: req.params.id });
+      res.status(200).json({ message: "Successfully updated!", id: req.params.id });
+    } else {
+      res.status(400).json({ message: "Not found!", id: req.params.id });
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
