@@ -39,7 +39,7 @@ exports.updatePumpStateToInUse = async (req, res) => {
     const pumpCheckBeforeUse = await Pump.findOne({
       _id: req.params.id,
       status: "idle",
-      curruntUserId: null,
+      currentUserId: null,
     });
     if (!pumpCheckBeforeUse) {
       console.log(pumpCheckBeforeUse);
@@ -50,7 +50,7 @@ exports.updatePumpStateToInUse = async (req, res) => {
         req.params.id,
         {
           status: "in_use",
-          curruntUserId: req.userId,
+          currentUserId: req.userId,
           updatedAt: new Date(),
         },
         {
