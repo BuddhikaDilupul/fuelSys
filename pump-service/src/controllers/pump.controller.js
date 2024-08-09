@@ -44,7 +44,7 @@ exports.updatePumpStateToInUse = async (req, res) => {
     if (!pumpCheckBeforeUse) {
       console.log(pumpCheckBeforeUse);
       
-      res.status(400).json({ message: "Already In use" });
+      return res.status(400).json({ message: "Already In use" });
     } else {
       const pumpCheck = await Pump.findByIdAndUpdate(
         req.params.id,
