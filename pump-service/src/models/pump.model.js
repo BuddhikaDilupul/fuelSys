@@ -24,8 +24,8 @@ const pumpSchema = new Schema({
     type: String,
     default: "idle",
   },
-  currentUserId: {
-    type: Schema.Types.ObjectId,
+  curruntUserId: {
+    type: String,
     default: null,
   },
   createdAt: {
