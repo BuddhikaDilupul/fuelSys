@@ -47,7 +47,7 @@ exports.updatePumpStateToInUse = async (req, res) => {
         {
           status: "in_use",
           curruntUserId: req.userId,
-          updatedAt: Date.now,
+          updatedAt: new Date(),
         },
         {
           new: true,
