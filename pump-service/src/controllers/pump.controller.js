@@ -79,7 +79,9 @@ exports.updatePumpStateToFree = async (req, res) => {
       }
     );
     if (pumpCheck) {
-      res.status(200).send("Successfully updated !");
+      res.status(200).JSON({message:"Successfully updated !", id: req.params.id });
+    }else{
+      res.status(400).JSON({message:"Not found !", id: req.params.id });
     }
   } catch (error) {
     res.status(400).json({ error: error.message });
