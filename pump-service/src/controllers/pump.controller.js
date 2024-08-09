@@ -41,7 +41,7 @@ exports.updatePumpStateToInUse = async (req, res) => {
       status: "idle",
       curruntUserId: null,
     });
-    if (pumpCheckBeforeUse) {
+    if (!pumpCheckBeforeUse) {
       console.log(pumpCheckBeforeUse);
       
       res.status(403).send("Already In use");
