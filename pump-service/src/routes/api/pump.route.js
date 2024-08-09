@@ -15,6 +15,12 @@ router.post(
   validate(pumpValidation.createPump),
   pumpController.savePump
 );
+router.put(
+  "/admin/statusUpdate/:id",
+  authenticate,
+  authorize([ROLES.admin, ROLES.manager]),
+  pumpController.updatePumpState
+);
 router.get(
   "/all/view",
   authenticate,
@@ -25,6 +31,10 @@ router.get(
   "/all/view/:id",
   authenticate,
   authorize([ROLES.admin, ROLES.manager, ROLES.pumper]),
+  pumpController.getPumpById
+);
+router.get(
+  "/sys/:id",
   pumpController.getPumpById
 );
 

@@ -14,17 +14,46 @@ const getFuelData = async () => {
 // Create a new Pump
 exports.savePump = async (req, res) => {
   console.log(req.body.pumpName);
-  
+
   try {
     const pumpCheck = await Pump.findOne({ pumpName: req.body.pumpName });
-    
+
     if (pumpCheck) {
       res.status(403).send("Can not have duplicate pumps");
     } else {
       const pump = new Pump(req.body);
-      
+
       await pump.save();
       res.status(201).json(pump);
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+// update pump state
+exports.updatePumpState = async (req, res) => {
+  try {
+    const pumpCheckBeforeUse = await Pump.findOne({
+      _id: req.params.id,
+      status: "idle",
+      curruntUserId: null,
+    });
+    if (!pumpCheckBeforeUse) {
+      res.status(403).send("Already In use");
+    } else {
+      const pumpCheck = await Pump.findByIdAndUpdate(
+        {
+          status: "in_use",
+          curruntUserId: req.userId,
+        },
+        {
+          new: true,
+        }
+      );
+      if (pumpCheck) {
+        res.status(200).send("Successfully updated !");
+      }
     }
   } catch (error) {
     res.status(400).json({ error: error.message });

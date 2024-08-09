@@ -24,6 +24,10 @@ const pumpSchema = new Schema({
     type: String,
     default: "idle",
   },
+  currentUserId: {
+    type: String,
+    default: null,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
