@@ -103,27 +103,18 @@ exports.updateCreditorsById = async (req, res) => {
         prevData.creditorData[0].fuelPrice,
     };
 
-    // Function to update or append fuelSummery
-    function updateFuelSummery(fuelSummery, temp) {
-      let fuelTypeExists = false;
+    let fuelTypeExists = false;
 
-      for (let i = 0; i < fuelSummery.length; i++) {
-        if (fuelSummery[i].fuelType === temp.fuelType) {
-          fuelSummery[i].totalAmount += temp.totalAmount;
-          fuelSummery[i].totalPrice += temp.totalPrice;
-          fuelTypeExists = true;
-          break;
-        }
+    fuelSummery?.map((data, index) => {
+      if (data.fuelType === temp.fuelType) {
+        fuelSummery[index].totalAmount += temp.totalAmount;
+        fuelSummery[index].totalPrice += temp.totalPrice;
+        fuelTypeExists = true;
       }
-
-      if (!fuelTypeExists) {
-        fuelSummery.push(temp);
-      }
-
-      return fuelSummery;
+    });
+    if (!fuelTypeExists) {
+      fuelSummery.push(temp);
     }
-
-    fuelSummery = updateFuelSummery(fuelSummery, temp);
 
     const updatedData = await Creditors.findOneAndUpdate(
       { _id: reportId, "creditorData._id": itemId },

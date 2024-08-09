@@ -1,7 +1,8 @@
-const Report = require("../models/mainReport.model"); // Adjust path as needed
-const Cash = require("../models/cash.model"); // Adjust path as needed
-const ATM = require("../models/atm.model"); // Adjust path as needed
-const Creditors = require("../models/creditors.model"); // Adjust path as needed
+const Report = require("../models/mainReport.model");
+const Cash = require("../models/cash.model");
+const ATM = require("../models/atm.model");
+const Creditors = require("../models/creditors.model");
+const { default: axios } = require("axios");
 
 exports.createReport = async (req, res) => {
   try {
@@ -21,22 +22,16 @@ exports.createReport = async (req, res) => {
     const updatePromises = itemList.map(async (item) => {
       switch (item.itemType) {
         case "Cash":
-          await Cash.updateOne(
-            { _id: item.reportId },
-            { status: "submitted" }
-          );
+          await Cash.updateOne({ _id: item.reportId }, { status: "submitted" });
           return await Cash.updateOne(
             { _id: item.reportId },
             { status: "submitted" }
           );
         case "ATM":
-          await ATM.updateOne(
-            { _id: item.reportId },
-            { status: "submitted" }
-          );
+          await ATM.updateOne({ _id: item.reportId }, { status: "submitted" });
           return await ATM.updateOne(
             { _id: item.reportId },
-            { $set: { 'billdata.$[].status': "submitted" } }
+            { $set: { "billdata.$[].status": "submitted" } }
           );
         case "Creditors":
           await Creditors.updateOne(
@@ -45,12 +40,11 @@ exports.createReport = async (req, res) => {
           );
           return await Creditors.updateOne(
             { _id: item.reportId },
-            { $set: { 'creditorData.$[].status': "submitted" } }
+            { $set: { "creditorData.$[].status": "submitted" } }
           );
         default:
           throw new Error(`Unknown item type: ${item.itemType}`);
       }
-
     });
 
     // Wait for all update operations to complete
@@ -159,22 +153,25 @@ exports.getAllReportsSubmittedByPumper = async (req, res) => {
 // Update a Report by ID
 exports.updateReportById = async (req, res) => {
   try {
-    const { data, totalPrice, totalFuel, itemList, createdBy, status } =
-      req.body;
+    const reportId = req.params.id;
+    const { pumpDetails, pumpId } = req.body;
+    pumpDetails.map(async (data) => {
+      const pupmData = await getPumpData(pumpId);
+      let totalDistributedFuelFromPump =
+        data.digitalMeter.closed - data.manualMeter.open;
+      let totalEarnPriceFromPump =
+        totalDistributedFuelFromPump * pupmData.fuel.price;
+      pumpDetails.push(totalDistributedFuelFromPump);
+      pumpDetails.push(totalEarnPriceFromPump);
+    });
 
-    const report = await Report.findById(req.params.id);
-    if (!report) {
-      return res.status(404).json({ message: "Report not found" });
-    }
-
-    if (data !== undefined) report.data = data;
-    if (totalPrice !== undefined) report.totalPrice = totalPrice;
-    if (totalFuel !== undefined) report.totalFuel = totalFuel;
-    if (itemList !== undefined) report.itemList = itemList;
-    if (createdBy !== undefined) report.createdBy = createdBy;
-    if (status !== undefined) report.status = status;
-
-    await report.save();
+    const report = await Report.findByIdAndUpdate(
+      reportId,
+      {
+        pumpDetails,
+      },
+      { new: true }
+    )
     res.json(report);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -191,5 +188,26 @@ exports.deleteReportById = async (req, res) => {
     res.json({ message: "Report deleted successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+const getFuelData = async () => {
+  try {
+    const response = await axios.get(`http://localhost:4042/fuel/v1/sys/view`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching fuel data:", error);
+    throw new Error("Could not fetch fuel data");
+  }
+};
+const getPumpData = async (id) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:4044/pump-management/v1/pump/sys/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching fuel data:", error);
+    throw new Error("Could not fetch fuel data");
   }
 };
