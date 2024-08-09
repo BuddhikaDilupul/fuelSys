@@ -4,6 +4,9 @@ const Schema = mongoose.Schema;
 const reportSchema = new Schema({
   pumpDetails: [
     {
+      pumpId:{
+        type: String,
+      },
       manualMeter: {
         open: {
           type: Number,

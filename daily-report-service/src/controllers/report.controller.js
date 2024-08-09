@@ -154,9 +154,9 @@ exports.getAllReportsSubmittedByPumper = async (req, res) => {
 exports.updateReportById = async (req, res) => {
   try {
     const reportId = req.params.id;
-    const { pumpDetails, pumpId } = req.body;
+    const { pumpDetails } = req.body;
     pumpDetails.map(async (data) => {
-      const pupmData = await getPumpData(pumpId);
+      const pupmData = await getPumpData(pumpDetails.pumpId);
       let totalDistributedFuelFromPump =
         data.digitalMeter.closed - data.manualMeter.open;
       let totalEarnPriceFromPump =
