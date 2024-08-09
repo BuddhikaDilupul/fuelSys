@@ -26,7 +26,6 @@ const pumpSchema = new Schema({
   },
   curruntUserId: {
     type: String,
-    default: null,
   },
   createdAt: {
     type: Date,
