@@ -27,6 +27,11 @@ router.put(
   authorize([ROLES.admin, ROLES.manager]),
   pumpController.updatePumpStateToFree
 );
+router.put(
+  "/admin/updatePumpListStateToFree",
+  authenticate,
+  authorize([ROLES.admin, ROLES.manager]),
+  updatePumpListStateToFree);
 router.get(
   "/all/view",
   authenticate,
