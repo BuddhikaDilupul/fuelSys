@@ -154,8 +154,8 @@ exports.getAllReportsSubmittedByPumper = async (req, res) => {
 exports.updateReportById = async (req, res) => {
   try {
     const reportId = req.params.id;
-    const { pumpDetails } = req.body;
-    console.log(req.body);
+    const pumpDetails  = req.body;
+    console.log(req.body, pumpDetails);
     
     pumpDetails?.map(async (data) => {
       const pupmData = await getPumpData(pumpDetails.pumpId);
