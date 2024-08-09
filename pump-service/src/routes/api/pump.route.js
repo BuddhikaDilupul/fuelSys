@@ -19,7 +19,7 @@ router.put(
   "/admin/updatePumpStateToInUse/:id",
   authenticate,
   authorize([ROLES.admin, ROLES.manager]),
-  pumpController.updatePumpState
+  pumpController.updatePumpStateToInUse
 );
 router.put(
   "/admin/updatePumpStateToFree/:id",

@@ -32,7 +32,7 @@ exports.savePump = async (req, res) => {
 };
 
 // update pump state with user
-exports.updatePumpState = async (req, res) => {
+exports.updatePumpStateToInUse = async (req, res) => {
   try {
     const pumpCheckBeforeUse = await Pump.findOne({
       _id: req.params.id,
