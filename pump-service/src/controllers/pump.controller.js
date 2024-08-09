@@ -94,7 +94,7 @@ exports.getAllPumps = async (req, res) => {
     }, {});
 
     // Fetch pump data
-    const pumps = await Pump.find({ status: "idle" });
+    const pumps = await Pump.find({ });
 
     // Update pumps with fuel data
     const updatedPumps = pumps.map((item) => {
